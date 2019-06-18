@@ -56,12 +56,10 @@ clear all;
 wdFile = pwd;
 
 % Add directory with required functions. 
-addpath('.\sub_110619\processing');
-% addpath('C:\Users\ks56cyvu\Desktop\MProjekt\sub_110619\processing');
+addpath('.\sub\processing');
 
 % Location of recordings. Change accordindly!
 source = ('.\Data');
-% source = ('C:\Users\ks56cyvu\Desktop\MProjekt\Data');
 
 % Initiate GUI.
 data = [];
