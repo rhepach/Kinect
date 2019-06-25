@@ -48,6 +48,7 @@ function[newFile] = skData2txt(newFile)
         newFile(1,2) = 0; % newFile = [0 0]; to avoid overwrite  
    end   
    
+   % get information from base workspace
    subject = evalin('base','Subject{s}'); 
    trial = evalin('base','Baseline{b}'); 
    rec = evalin('base','Recording{r}'); % e.g. Recording_3

@@ -18,7 +18,7 @@ function resizeMatF(xx)
     if ~isequal(xx,'00')
         % setup for access to frame data
         recPath = evalin('base','recPath');   
-        Files = dir(fullfile(recPath,'FRM*.mat')); 
+        Files = dir(fullfile(recPath,'FRM*.mat')); % frame files in folder
         nFrames = numel(Files);  
         
         frameArray = cell(nFrames, 4); 
