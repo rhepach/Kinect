@@ -3,37 +3,37 @@
 %% Parameters 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % V1.0
+
 % set parameters for recording
-%global SubjectName;
 SubjectName = 'elevation'; 
 %SubjectName = input('Enter Name of Subject\n', 's'); 
-%RecordName  ='K2'; %input('Enter Name of Recording\n');
 
-addpath('./sub/recording')
+addpath('./sub/recording') 
 
 Frames        = Inf  ; % set max. number of Frames ("Inf" for infinite)
 RecordingTime = Inf  ; % set max. recording time (in secs, "Inf" for infinite)
 Source        = 'Kinect'; % 'Kinect' - gets data from Kinect Hardware 
-                          % 'C:\...' - path to Folder with frame mat-files 
-                          %            replays already recorded data
                             
 global flag;
 flag.Record      = 0   ; % 1 = starts continuous recording
+flag.Preview     = 1   ; % realtime preview
+flag.Video       = 1   ; % MP4-Video recording
+
+% settings for automatic recording in case of movement
 flag.AutoRecord  = 0   ; % 1 = in case of movement recording starts automatically 
 AutoRecordThresh = 0.2 ; % threshold for start of recording
 AutoRecordFrames = 50  ; % minimal number of frames to be recorded after 
                          % start of recording
-flag.Preview     = 1   ; % realtime preview
-flag.Video       = 1   ; % MP4-Video recording
 
-global vidopen;          % 1 = video file initialized
-vidopen = 0;
+global vidopen;          
+vidopen = 0;             % 0 = video file to be initialized
+
+global RecordPath;       % Path to current Recording-Folder
+global timesofrec;       % Counter for times of recording
+timesofrec = 1;   
 
 global button;           % Recording/Stop Button
 global statebutton;      % Folder Button (Baseline/Test)
-global RecordPath;       % Path to current Recording-Folder
-global timesofrec;       % Counter for times of recording
-timesofrec = 1;          
 global cnt               % Counter for states of statebutton
 cnt = 1;
 global states;           % string for statebutton
@@ -41,9 +41,10 @@ global states;           % string for statebutton
 % vector of foldernames (below subject folder level)
 % push Button in right corner of GUI in order to select next folder name
 states = [cellstr('Baseline 1'); cellstr('Baseline 2');...
-    cellstr('Baseline 3');cellstr('Baseline 4');cellstr('Baseline 5');...
-    cellstr('Baseline 6');cellstr('Baseline 7');cellstr('Baseline 8');...
-    cellstr('Test 1'); cellstr('Test 2')];
+          cellstr('Baseline 3');cellstr('Baseline 4');...
+          cellstr('Baseline 5');cellstr('Baseline 6');...
+          cellstr('Baseline 7');cellstr('Baseline 8');...
+          cellstr('Test 1'); cellstr('Test 2')];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% recording 
@@ -152,9 +153,7 @@ start(vid); % initiates data acquisition
 
 % Initialize some internal variables and counter
 tic
-N1 = 0;                                 % set Frame Counter               
-% imgColor0 = zeros(480,640,3,'uint8');   
-% ExtraFrames = 0;            
+N1 = 0; % set Frame Counter                          
 
 %% data logging
 
@@ -166,16 +165,14 @@ while ~any([N1 >= Frames,toc > RecordingTime, timesofrec == -1])
    
    % trigger acquisition for all kinect objects.
    trigger(vid) 
-   % Get the acquired frames and metadata from Kinects
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   % Get the acquired color & depth frames + metadata from Kinect
    [imgColor1, ~ , ~ ] = getdata(vid(1)); % from RGB camera 
    [imgDepth1, ~ , metaData_Depth1] = getdata(vid(2)); % from Depth camera
-
+   
    if N1 == 1
-      % preview
-      run_preview_1
+       run_preview % start realtime preview
    end
-
+   
    if flag.Record
        
       % create folder for corresponding number of recording 
@@ -183,29 +180,27 @@ while ~any([N1 >= Frames,toc > RecordingTime, timesofrec == -1])
                '/',states{cnt},'/Recording_',num2str(timesofrec)),'dir') == 0
          createDir(sprintf('%s_%s',TimeStamp,SubjectName),...
                 strcat(states{cnt},'/Recording_',num2str(timesofrec)));
-         % vpath = sprintf('%s_%s',TimeStamp,SubjectName); % doesn't appear anywhere else?
       end 
        
       % initialize video file & configure properties
       if (flag.Video && vidopen == 0)
-         path = fullfile('Data',sprintf('%s_%s',TimeStamp,SubjectName),states{cnt});
-         %mkdir('Data',sprintf('%s_%s_%s',TimeStamp,SubjectName,RecordName))
-         %VideoFilename = fullfile(RecordPath,sprintf('%s_%s.%s',SubjectName,RecordName,'mp4'));
+         path = fullfile('Data',sprintf('%s_%s',TimeStamp,SubjectName),...
+                         states{cnt});
          VideoFilename = fullfile(path,sprintf('%s_%s.%s','Recording',...
-                                            num2str(timesofrec),'mp4'));
+                                  num2str(timesofrec),'mp4'));
          vidObj = VideoWriter(VideoFilename,'MPEG-4'); % creates video file
          vidObj.Quality = 100;
          vidObj.FrameRate = 30;
          open(vidObj)
          vidopen = 1;           
       end
-       
+      
+      % remove "SegmentationData"-field 
+      metaData_Depth1 = rmfield(metaData_Depth1,'SegmentationData'); 
+      
       % save data
       matfile = fullfile(RecordPath,sprintf('FRM%07d_%s.mat',N1,...
-                            datestr(metaData_Depth1.AbsTime,'HHMMSS')));
-	  % remove "SegmentationData"-field from struct before saving the MAT-file
-      metaData_Depth1 = rmfield(metaData_Depth1,'SegmentationData');    %new
-       
+                         datestr(metaData_Depth1.AbsTime,'HHMMSS')));   
       save(matfile,'imgColor1','imgDepth1','metaData_Depth1','-v6');
         
       % write data from array to video file
@@ -232,8 +227,7 @@ end
 stop(vid);
 
 % Stop Video writer
-% if (flag.Video && vidopen) 
-if (flag.Video) 
+if (flag.Video && exist('vidObj', 'var')) 
    close(vidObj);
 end
 
