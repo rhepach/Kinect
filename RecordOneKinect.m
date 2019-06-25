@@ -26,6 +26,9 @@ AutoRecordFrames = 50  ; % minimal number of frames to be recorded after
 flag.Preview     = 1   ; % realtime preview
 flag.Video       = 1   ; % MP4-Video recording
 
+global vidopen;          % 1 = video file initialized
+vidopen = 0;
+
 global button;           % Recording/Stop Button
 global statebutton;      % Folder Button (Baseline/Test)
 global RecordPath;       % Path to current Recording-Folder
@@ -34,40 +37,31 @@ timesofrec = 1;
 global cnt               % Counter for states of statebutton
 cnt = 1;
 global states;           % string for statebutton
+
+% vector of foldernames (below subject folder level)
+% push Button in right corner of GUI in order to select next folder name
 states = [cellstr('Baseline 1'); cellstr('Baseline 2');...
     cellstr('Baseline 3');cellstr('Baseline 4');cellstr('Baseline 5');...
     cellstr('Baseline 6');cellstr('Baseline 7');cellstr('Baseline 8');...
     cellstr('Test 1'); cellstr('Test 2')];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% recording or replay
+%% recording 
 
-if strcmp('Kinect', Source) % determines whether recording or not
-   % Reset kinect objects in memory
-   imaqreset
-   % Initialize Kinect Objects
-   clear vid;
-   % Initialize Kinect Hardware
-   vid(1) = videoinput('kinect', 1); % RGB camera 1
-   vid(2) = videoinput('kinect', 2); % Depth camera 1
-   %
-   % set Elevation Angle (if necessary) - experimemtspezifisch?
-  %%% set(get(vid(1),'Source'),'CameraElevationAngle',0)   %new
-  %%% set(get(vid(2),'Source'),'CameraElevationAngle',0)   %new
-  % set(get(vid(3),'Source'),'CameraElevationAngle',0)   %new
-  % set(get(vid(4),'Source'),'CameraElevationAngle',0)   %new
+% Reset kinect objects in memory
+imaqreset
+
+% Initialize Kinect Objects
+clear vid;
+
+% Initialize Kinect Hardware
+vid(1) = videoinput('kinect', 1); % RGB camera 1
+vid(2) = videoinput('kinect', 2); % Depth camera 1
+
+% set Elevation Angle (if necessary) 
+%%% set(get(vid(1),'Source'),'CameraElevationAngle',0)   %new
+%%% set(get(vid(2),'Source'),'CameraElevationAngle',0)   %new
    
-else
-   % Prepare Setting for loading MAT-Frames (replay option)
-   files  = dir(fullfile(Source,'FRM*.mat'));
-   Frames = numel(files);
-   RecordingTime   = Inf ;
-   flag.Record     = 0   ;
-   flag.AutoRecord = 0   ;
-   flag.Preview    = 1   ;
-  % flag.Video      = 0   ;
-end
-
 % 
 TimeStamp = datestr(now,30);
 
@@ -81,7 +75,11 @@ end
 if flag.Preview
    % create a figure
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   hFig = figure('Renderer','zbuffer','Colormap',jet(3000),...
+   % 'zbuffer' used to be renderer option of choice! 
+   % since it has been removed, change to opengl
+%    hFig = figure('Renderer','zbuffer','Colormap',jet(3000),...
+%                  'KeyPressFcn',@keyPress);
+   hFig = figure('Renderer','opengl','Colormap',jet(3000),...
                  'KeyPressFcn',@keyPress);
             
    % initialize subplots
@@ -140,29 +138,23 @@ set(gcf,'CloseRequestFcn',{@stopScript})
 %% final preparation of kinect
 
 % start kinect
-if strcmp('Kinect',Source)
-   
-   % video object from Depth camera + configurations 
-   srcDepth = getselectedsource(vid(2));  
-   set(srcDepth, 'TrackingMode', 'Skeleton')
-   set(srcDepth, 'BodyPosture', 'Standing')     %new
-   % set(srcDepth, 'DepthMode', 'Near')         %new
-  
-   % configuration of video object properties
-   vid.FramesPerTrigger = 1; % number of frames to acquire per trigger
-   vid.TriggerRepeat = Frames; % number of additional times to execute trigger
-   triggerconfig(vid,'manual'); % data logging as soon as trigger() issued
-   start(vid); % initiates data acquisition
-end
+% video object from Depth camera + configurations 
+srcDepth = getselectedsource(vid(2));  
+set(srcDepth, 'TrackingMode', 'Skeleton')
+set(srcDepth, 'BodyPosture', 'Standing')     %new
+% set(srcDepth, 'DepthMode', 'Near')         %new
+
+% configuration of video object properties
+vid.FramesPerTrigger = 1; % number of frames to acquire per trigger
+vid.TriggerRepeat = Frames; % number of additional times to execute trigger
+triggerconfig(vid,'manual'); % data logging as soon as trigger() issued
+start(vid); % initiates data acquisition
 
 % Initialize some internal variables and counter
 tic
-imgColor0 = zeros(480,640,3,'uint8');   
-ExtraFrames = 0;
-N1 = 0;                                 % set Frame Counter
-
-global vidopen;                         % 1 = video file initialized
-vidopen = 0;                            
+N1 = 0;                                 % set Frame Counter               
+% imgColor0 = zeros(480,640,3,'uint8');   
+% ExtraFrames = 0;            
 
 %% data logging
 
@@ -172,18 +164,13 @@ while ~any([N1 >= Frames,toc > RecordingTime, timesofrec == -1])
    % Frame Counter
    N1 = N1 + 1;
    
-   
-   if strcmp('Kinect',Source) % recording mode
-      % trigger acquisition for all kinect objects.
-      trigger(vid) 
-      % Get the acquired frames and metadata from Kinects
-      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      [imgColor1, ~ , ~ ] = getdata(vid(1)); % from RGB camera 
-      [imgDepth1, ~ , metaData_Depth1] = getdata(vid(2)); % from Depth camera
-   else % replay mode
-      load(fullfile(Source,files(N1).name))
-   end
-   
+   % trigger acquisition for all kinect objects.
+   trigger(vid) 
+   % Get the acquired frames and metadata from Kinects
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   [imgColor1, ~ , ~ ] = getdata(vid(1)); % from RGB camera 
+   [imgDepth1, ~ , metaData_Depth1] = getdata(vid(2)); % from Depth camera
+
    if N1 == 1
       % preview
       run_preview_1
@@ -218,21 +205,13 @@ while ~any([N1 >= Frames,toc > RecordingTime, timesofrec == -1])
                             datestr(metaData_Depth1.AbsTime,'HHMMSS')));
 	  % remove "SegmentationData"-field from struct before saving the MAT-file
       metaData_Depth1 = rmfield(metaData_Depth1,'SegmentationData');    %new
-      %metaData_Depth2 = rmfield(metaData_Depth2,'SegmentationData');    %new
        
       save(matfile,'imgColor1','imgDepth1','metaData_Depth1','-v6');
-      %save(matfile,'metaData_Depth1','metaData_Depth2','-v6');
         
       % write data from array to video file
       if (flag.Video && vidopen)
          writeVideo(vidObj, imgColor1);
       end
-      %
-      % imwrite(imgColor1,fullfile(RecordPath,'Kinect_1',sprintf('Kinect1_Color_%d.png',N1)));
-      % imwrite(imgDepth1,fullfile(RecordPath,'Kinect_1',sprintf('Kinect1_Depth_%d.png',N1)));
-      % imwrite(imgColor2,fullfile(RecordPath,'Kinect_1',sprintf('Kinect2_Color_%d.png',N1)));
-      % imwrite(imgDepth2,fullfile(RecordPath,'Kinect_1',sprintf('Kinect2_Depth_%d.png',N1)));
-      %
    end
   
    % Statistics / Timer / Counterstop
@@ -245,21 +224,16 @@ while ~any([N1 >= Frames,toc > RecordingTime, timesofrec == -1])
           toc-toc1,N1,toc)
    end
    
-   if ~strcmp('Kinect', Source)
-      pause(0.1)
-   end
-   %drawnow
 end
 
 %% wrap up
 
 % Stop Kinects
-if strcmp('Kinect',Source)
-   stop(vid);
-end
+stop(vid);
 
 % Stop Video writer
-if (flag.Video && vidopen) 
+% if (flag.Video && vidopen) 
+if (flag.Video) 
    close(vidObj);
 end
 
