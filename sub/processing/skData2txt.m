@@ -54,12 +54,13 @@ function[newFile] = skData2txt(newFile)
    rec = split(rec,'_'); % rec{end} = number of recording (e.g. 3) 
    recPath = evalin('base','recPath');
    
-   Files  = dir(fullfile(recPath,'FRM*.mat')); 
+   Files  = dir(fullfile(recPath,'FRM*.mat')); % get frame files in folder
    nFrames = numel(Files);
    
+   % write data into .txt file for each frame file
    for iFrame = 1:nFrames
         f = Files(iFrame).name;
-        load(fullfile(recPath,f)); % data from frame file (.mat)
+        load(fullfile(recPath,f)); % data from single frame file (.mat)
         fName = f(1:end-4); % file name without '.mat'
         
         if (exist('metaData_Depth1', 'var') == 1 && isstruct(metaData_Depth1) == 1)
@@ -84,20 +85,6 @@ function[newFile] = skData2txt(newFile)
                 end
             end
         end
-        
-        % repetition of same procedure for second Kinect (if data available) 
-%         if (exist('metaData_Depth2', 'var') == 1 && isstruct(metaData_Depth2) == 1)
-%             md2 = evalin('base','metaData_Depth2');
-%             jwc = metaData_Depth2.JointWorldCoordinates;
-%             for k = 1:6
-%                 if ~isequal(jwc(:,:,k), zeros(20,3))
-%                     fprintf(skDataFile,'%s\t%s\t%s\t',subject, trial, rec{end});
-%                     fprintf(skDataFile,'%s\t%d\t%d\t', fName(4:end), 2, colors{k});
-%                     fprintf(skDataFile,'%f\t%f\t%f\t', jwc(:,:,k).');
-%                     fprintf(skDataFile,'\n');
-%                 end
-%             end
-%         end
         
    end   
    fclose(skDataFile);
