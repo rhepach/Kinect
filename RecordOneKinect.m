@@ -21,9 +21,9 @@ flag.Video       = 1   ; % MP4-Video recording
 
 % settings for automatic recording in case of movement
 flag.AutoRecord  = 0   ; % 1 = in case of movement recording starts automatically 
-AutoRecordThresh = 0.2 ; % threshold for start of recording
-AutoRecordFrames = 50  ; % minimal number of frames to be recorded after 
-                         % start of recording
+% AutoRecordThresh = 0.2 ; % threshold for start of recording
+% AutoRecordFrames = 50  ; % minimal number of frames to be recorded after 
+%                          % start of recording
 
 global vidopen;          
 vidopen = 0;             % 0 = video file to be initialized
@@ -62,14 +62,15 @@ vid(2) = videoinput('kinect', 2); % Depth camera 1
 % set Elevation Angle (if necessary) 
 %%% set(get(vid(1),'Source'),'CameraElevationAngle',0)   %new
 %%% set(get(vid(2),'Source'),'CameraElevationAngle',0)   %new
-   
-% 
-TimeStamp = datestr(now,30);
 
 % create folder for Data
-if exist('Data', 'dir') == 0
+if ~(exist('Data', 'dir'))
    mkdir('Data')
 end
+
+% prepare folder names
+TimeStamp = datestr(now,30);
+subjectFolder = sprintf('%s_%s',TimeStamp,SubjectName);
 
 %% initialize Realtime Preview
 
@@ -169,23 +170,21 @@ while ~any([N1 >= Frames,toc > RecordingTime, timesofrec == -1])
    [imgColor1, ~ , ~ ] = getdata(vid(1)); % from RGB camera 
    [imgDepth1, ~ , metaData_Depth1] = getdata(vid(2)); % from Depth camera
    
-   if N1 == 1
-       run_preview % start realtime preview
-   end
+   % start realtime preview
+   if (N1 == 1), run_preview; end
    
    if flag.Record
        
       % create folder for corresponding number of recording 
-      if exist(strcat('Data/',sprintf('%s_%s',TimeStamp,SubjectName),...
-               '/',states{cnt},'/Recording_',num2str(timesofrec)),'dir') == 0
-         createDir(sprintf('%s_%s',TimeStamp,SubjectName),...
-                strcat(states{cnt},'/Recording_',num2str(timesofrec)));
+      if exist(strcat('Data/',subjectFolder,'/',states{cnt},...
+               '/Recording_',num2str(timesofrec)),'dir') == 0
+         createDir(subjectFolder,strcat(states{cnt},'/Recording_',...
+                   num2str(timesofrec)));
       end 
        
       % initialize video file & configure properties
       if (flag.Video && vidopen == 0)
-         path = fullfile('Data',sprintf('%s_%s',TimeStamp,SubjectName),...
-                         states{cnt});
+         path = fullfile('Data',subjectFolder,states{cnt});
          VideoFilename = fullfile(path,sprintf('%s_%s.%s','Recording',...
                                   num2str(timesofrec),'mp4'));
          vidObj = VideoWriter(VideoFilename,'MPEG-4'); % creates video file
