@@ -7,10 +7,10 @@ function keyPress(src, e)
     global button;
     
     switch e.Key
-        case 'space'
-            switchRec(button, []);
+        case 'space' 
+            switchRec(button, []); % changes recording state 
         case 'rightarrow'
-            switchState(button, []);
+            switchState(button, []); % changes statebutton
     end
    
 end
