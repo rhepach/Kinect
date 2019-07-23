@@ -8,7 +8,7 @@
 %    >> resizeMatF('11') % halfsized & grayscaled imagedata
 % 
 % Inputs:
-%     xx    - char vector; '01' | '10' | '11'
+%     xx       - char vector; '01' | '10' | '11'
 % 
 % Outputs:
 %     This function has no output arguments.
@@ -18,7 +18,8 @@ function resizeMatF(xx)
     if ~isequal(xx,'00')
         % setup for access to frame data
         recPath = evalin('base','recPath');   
-        Files = dir(fullfile(recPath,'FRM*.mat')); % frame files in folder
+        
+        Files = dir(fullfile(recPath,'FRM*.mat')); % frame files
         nFrames = numel(Files);  
         
         frameArray = cell(nFrames, 4); 

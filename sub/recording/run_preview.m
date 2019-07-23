@@ -34,7 +34,6 @@ function run_preview
         % get initialized line objects
         hColor_Skelet_2D = evalin('base','hColor_Skelet_2D'); 
         hDepth_Skelet_2D = evalin('base','hDepth_Skelet_2D'); 
-        % hSkelet_3D = evalin('base','hSkelet_3D'); 
         
         % get affiliated Kinect data for skeletal plots
         metaData_Depth1 = evalin('base','metaData_Depth1');
@@ -91,6 +90,9 @@ function run_preview
                 set(hDepth_Skelet_2D(1,N),'xdata',NaN,'ydata',NaN)
             end
         end
+        
+        % % get affiliated Kinect data for 3D skeletal plots
+        % hSkelet_3D = evalin('base','hSkelet_3D'); 
         
         %{
         % Plot 3D Skeletal_Data

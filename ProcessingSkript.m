@@ -94,7 +94,7 @@ if ~isequal(guiData, '00000000')
                 recPath = strcat(source,'/',Subject{s},'/',Baseline{b},...
                                         '/',Recording{r}); 
                 
-                Files  = dir(fullfile(recPath,'FRM*.mat')); 
+                Files  = dir(fullfile(recPath,'FRM*.mat')); % frame files
                 nFrames = numel(Files); 
                 
                 % start processing if any frames in recording folder
@@ -112,10 +112,10 @@ if ~isequal(guiData, '00000000')
                         
                         % get frame file data (.mat)
                         f = Files(iFrames).name; 
-                        load(fullfile(recPath,f)); 
+                        load(fullfile(recPath,f));  
                         
                         % resize &/| greyscale colorframes
-                        resizeMatF(guiData(1:2)); 
+                        resizeMatF(guiData(1:2));
                         
                         % extract Colorimages with/without skeleton 
                         if (exist('imgColor1','var') && exist('metaData_Depth1','var')) 
