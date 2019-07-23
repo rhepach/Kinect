@@ -60,7 +60,7 @@ function ExtractPNGs(metaData_Depth1, imgData, k, x, y, type)
         hColor_Skelet_2D(1,:) = line(nan(2,6),nan(2,6),'Parent',hAxes,...
                                 'Marker','o','MarkerSize',5,'LineWidth',2);
         
-        % add color or depth data 
+        % add color or depth data to image object
         set(hColor1,'cdata',imgData) 
         
         % save pics without skeleton
