@@ -12,18 +12,13 @@ addpath('./sub/recording')
 
 Frames        = Inf  ; % set max. number of Frames ("Inf" for infinite)
 RecordingTime = Inf  ; % set max. recording time (in secs, "Inf" for infinite)
-Source        = 'Kinect'; % 'Kinect' - gets data from Kinect Hardware 
+Source        = 'Kinect'; % 'Kinect' - gets data from Kinect Hardware
+elevationAngle = 0;    % set elevation angle for both cameras
                             
 global flag;
 flag.Record      = 0   ; % 1 = starts continuous recording
 flag.Preview     = 1   ; % realtime preview
 flag.Video       = 1   ; % MP4-Video recording
-
-% settings for automatic recording in case of movement
-flag.AutoRecord  = 0   ; % 1 = in case of movement recording starts automatically 
-% AutoRecordThresh = 0.2 ; % threshold for start of recording
-% AutoRecordFrames = 50  ; % minimal number of frames to be recorded after 
-%                          % start of recording
 
 global vidopen;          
 vidopen = 0;             % 0 = video file to be initialized
@@ -57,11 +52,7 @@ clear vid;
 
 % Initialize Kinect Hardware
 vid(1) = videoinput('kinect', 1); % RGB camera 1
-vid(2) = videoinput('kinect', 2); % Depth camera 1
-
-% set Elevation Angle (if necessary) 
-%%% set(get(vid(1),'Source'),'CameraElevationAngle',0)   %new
-%%% set(get(vid(2),'Source'),'CameraElevationAngle',0)   %new
+vid(2) = videoinput('kinect', 2); % Depth camera 1 
 
 % create folder for Data
 if ~(exist('Data', 'dir'))
@@ -87,35 +78,22 @@ if flag.Preview
    % initialize subplots
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    % Plot 1 - colorimage with skeleton
-   hAxes(1) = subplot(1,2,1,'Parent',hFig,'box','on',...
+   hAxes = subplot(1,2,1,'Parent',hFig,'box','on',...
                 'XLim',[0.5 640.5],'Ylim',[0.5 480.5],'nextplot','add',...
                 'YDir','Reverse','fontsize',7);
-   title(hAxes(1),'Color / 2D Skeletal')
-   hColor(1) = image(NaN,'Parent',hAxes(1));
-   hColor_Skelet_2D(1,:) = line(nan(2,6),nan(2,6),'Parent',hAxes(1),...
+   title(hAxes,'Color / 2D Skeletal')
+   hColor = image(NaN,'Parent',hAxes);
+   hColor_Skelet_2D(1,:) = line(nan(2,6),nan(2,6),'Parent',hAxes,...
                                 'Marker','o','MarkerSize',5,'LineWidth',2);
    %
    % Plot 2 - depthimage with skeleton
-   hAxes(2) = subplot(1,2,2,'Parent',hFig,'box','on',...
+   hAxes = subplot(1,2,2,'Parent',hFig,'box','on',...
                 'XLim',[0.5 640.5],'Ylim',[0.5 480.5],'nextplot','add',...
                 'YDir','Reverse','fontsize',7);
-   title(hAxes(2),'Depth / 2D Skeletal')
-   hDepth(1) = image(NaN,'Parent',hAxes(2));
-   hDepth_Skelet_2D(1,:) = line(nan(2,6),nan(2,6),'Parent',hAxes(2),...
+   title(hAxes,'Depth / 2D Skeletal')
+   hDepth = image(NaN,'Parent',hAxes);
+   hDepth_Skelet_2D(1,:) = line(nan(2,6),nan(2,6),'Parent',hAxes,...
                                 'Marker','o','MarkerSize',5,'LineWidth',2);
-   %{
-   % Plot 3 - position in 3D-space
-   hAxes(3) = subplot(1,3,3,'Parent',hFig,'box','on','nextplot','add',...
-                   'XLim',[-2 0],'Ylim',[-2 2],'Zlim',[-1 1],'fontsize',7);
-   title(hAxes(3),'3D Skeletal')
-   xlabel(hAxes(3),'x')
-   ylabel(hAxes(3),'y')
-   zlabel(hAxes(3),'z')
-   hSkelet_3D(1,:) = line(nan(2,6),nan(2,6),nan(2,6),'Parent',hAxes(3),...
-                            'Marker','o','MarkerSize',5,'LineWidth',1);
-   view(3)
-   grid(hAxes(3),'on')
-   %}
 end
 
 %% GUI functionality
@@ -139,17 +117,22 @@ set(gcf,'CloseRequestFcn',{@stopScript})
 
 %% final preparation of kinect
 
-% start kinect
-% video object from Depth camera + configurations 
+% video object from Depth camera  
 srcDepth = getselectedsource(vid(2));  
-set(srcDepth, 'TrackingMode', 'Skeleton')
-set(srcDepth, 'BodyPosture', 'Standing')     %new
-% set(srcDepth, 'DepthMode', 'Near')         %new
 
-% configuration of video object properties
+% configure camera settings     
+set(srcDepth, 'TrackingMode', 'Skeleton') % track skeleton
+set(srcDepth, 'BodyPosture', 'Standing')  % participants are standing
+% set(srcDepth, 'DepthMode', 'Near')  
+
+% set elevation angle
+% set(get(vid(1),'Source'),'CameraElevationAngle', elevationAngle)   
+% set(get(vid(2),'Source'),'CameraElevationAngle', elevationAngle)
+
+% configure video object properties
+triggerconfig(vid,'manual'); % data logging as soon as trigger() issued
 vid.FramesPerTrigger = 1; % number of frames to acquire per trigger
 vid.TriggerRepeat = Frames; % number of additional times to execute trigger
-triggerconfig(vid,'manual'); % data logging as soon as trigger() issued
 start(vid); % initiates data acquisition
 
 % Initialize some internal variables and counter
@@ -166,7 +149,7 @@ while ~any([N1 >= Frames,toc > RecordingTime, timesofrec == -1])
    
    % trigger acquisition for all kinect objects.
    trigger(vid) 
-   % Get the acquired color & depth frames + metadata from Kinect
+   % get the acquired color & depth data + metadata from Kinect
    [imgColor1, ~ , ~ ] = getdata(vid(1)); % from RGB camera 
    [imgDepth1, ~ , metaData_Depth1] = getdata(vid(2)); % from Depth camera
    

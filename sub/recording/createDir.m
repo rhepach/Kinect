@@ -8,9 +8,8 @@
 function createDir(x,b)
     global flag;
     global RecordPath;
-    % global timesofrec;
     
-    if flag.Record || flag.AutoRecord % not executed in replay mode
+    if flag.Record % remove (?)
         % creates folder for current number of recording
         mkdir(strcat('Data','/',x),b)
         % sets RecordPath to created folder

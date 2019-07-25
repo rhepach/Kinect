@@ -24,8 +24,8 @@ function run_preview
         colors = ['b','g','r','y','m','c','k'];
         
         % get initialized image objects from MATLAB base workspace
-        hColor(1) = evalin('base','hColor(1)');
-        hDepth(1) = evalin('base','hDepth(1)');
+        hColor = evalin('base','hColor');
+        hDepth = evalin('base','hDepth');
         
         % get affiliated Kinect data for color & depth frame 
         imgColor1 = evalin('base','imgColor1');
@@ -39,8 +39,8 @@ function run_preview
         metaData_Depth1 = evalin('base','metaData_Depth1');
         
         % fill object with color & depth data respectively
-        set(hColor(1),'cdata',imgColor1)
-        set(hDepth(1),'cdata',imgDepth1) 
+        set(hColor,'cdata',imgColor1)
+        set(hDepth,'cdata',imgDepth1) 
         
         for N = 1:6
             if metaData_Depth1.IsSkeletonTracked(N) 
@@ -90,46 +90,6 @@ function run_preview
                 set(hDepth_Skelet_2D(1,N),'xdata',NaN,'ydata',NaN)
             end
         end
-        
-        % % get affiliated Kinect data for 3D skeletal plots
-        % hSkelet_3D = evalin('base','hSkelet_3D'); 
-        
-        %{
-        % Plot 3D Skeletal_Data
-        for N = 1:6
-            if metaData_Depth1.IsSkeletonTracked(N) %K1
-
-                points = metaData_Depth1.JointWorldCoordinates(:,:,N); 
-                
-                % prepare data vectors to plot the skeletal data
-                points = [points; nan(1,3,size(points,3))];
-                %{
-                if points(1,1)~=0
-                    disp(points(1,:))
-                end
-                %}
-                xdata = points([1 2 3 4 end... % body longitudinal axis
-                                3 5 6 7 8 end ... % left arm
-                                3 9 10 11 12 end ... % right arm
-                                1 13 14 15 16 end ... % left leg
-                                1 17 18 19 20 end],1); % right leg
-                ydata = points([1 2 3 4 end...
-                                3 5 6 7 8 end 3 9 10 11 12 end...
-                                1 13 14 15 16 end 1 17 18 19 20 end],2);
-                zdata = points([1 2 3 4 end...
-                                3 5 6 7 8 end 3 9 10 11 12 end...
-                                1 13 14 15 16 end 1 17 18 19 20 end],3);
-                
-                % pass skeletal data on to 3-D line object
-                set(hSkelet_3D(1,N),'xdata',xdata,'ydata',ydata,...
-                                    'zdata',zdata,'Color',colors(N))
-            else
-                % no data (NaN) for skeletal plots if nothing was tracked
-                set(hSkelet_3D(1,N),'xdata',NaN,'ydata',NaN,'zdata',NaN)
-            end
-            
-        end
-        %}
         
        % set(hFig,'Name',sprintf('TimePerFrame %.4f sec. | (Frames:%05d) | TotalTime is %.2f sec.\n',toc-toc1,N1,toc))
     end
