@@ -46,7 +46,8 @@
 %   >> guiData(5) - extract depthframes with skeleton
 %   >> guiData(6) - extract depthframes
 %   >> guiData(7) - extract & save skeleton data
-%   >> guiData(8) - delete original color & depth images (irreversible)
+%   >> guiData(8) - extract video (.mp4) from color images
+%   >> guiData(9) - delete original color & depth images (irreversible)
 
 %% Setup  
 %Clear workspace.
@@ -58,7 +59,7 @@ wdFile = pwd;
 % Add directory with required functions. 
 addpath('.\sub\processing');
 
-% Location of recordings. Change accordindly!
+% Location of recordings. Change accordingly!
 source = ('.\Data');
 
 % Initiate GUI.
@@ -71,7 +72,7 @@ j = 1; % counter variable for del
 
 %%
 % Check for user selection in toggle boxes (any option chosen).
-if ~isequal(guiData, '00000000') 
+if ~isequal(guiData, '000000000') 
     % set working directory (might be changed by GUI)
     cd(wdFile)
     
@@ -102,7 +103,7 @@ if ~isequal(guiData, '00000000')
                     disp(Recording{r});
                     
                     % store recPaths in del if "delete originals" chosen
-                    if (guiData(8) == '1')  
+                    if (guiData(9) == '1')  
                         del{j,1} = recPath; 
                         j = j + 1; 
                     end 
@@ -135,13 +136,16 @@ if ~isequal(guiData, '00000000')
                     if (guiData(7) == '1')
                         newFile = skData2txt(newFile);
                     end % txt-File filled 
+                    
+                     % write color frames to video file 
+                    if (guiData(8) == '1'), extractVideo(recPath); end
                 end 
             end
         end   
     end
     
     % delete color- & depthsinformation from original mat-files
-    if (guiData(8) == '1') 
+    if (guiData(9) == '1') 
         % for each recording folder stored in del
         for d = 1:size(del,1) 
             dirData = dir(del{d,1}); % paths to frame files (.mat)

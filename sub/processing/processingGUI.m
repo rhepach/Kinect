@@ -22,7 +22,7 @@ function varargout = processingGUI(varargin)
 
 % Edit the above text to modify the response to help processingGUI
 
-% Last Modified by GUIDE v2.5 27-May-2019 15:22:18
+% Last Modified by GUIDE v2.5 02-Jul-2019 13:05:41
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -102,9 +102,10 @@ function pushbutton1_Callback(hObject, eventdata, handles)
     depth = get(handles.depth,'Value');
     skel = get(handles.skel,'Value');
     del = get(handles.checkbox6, 'Value');
+    video = get(handles.extractVideo, 'Value');
     out = strcat(num2str(grey), num2str(half), num2str(skelPics), ...
                 num2str(pics),num2str(skelDepth),num2str(depth), ...
-                num2str(skel),num2str(del));
+                num2str(skel), num2str(video), num2str(del));
     handles.out = out;
     guidata(hObject, handles);
     close(handles.figure1);
@@ -241,3 +242,11 @@ function listbox2_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+% --- Executes on button press in extractVideo.
+function extractVideo_Callback(hObject, eventdata, handles)
+% hObject    handle to extractVideo (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of extractVideo
