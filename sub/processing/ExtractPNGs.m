@@ -47,7 +47,7 @@ function ExtractPNGs(metaData_Depth1, imgData, k, x, y, type)
         frameNo = num2str(metaData_Depth1.FrameNumber);
         
         % create a figure without displaying it
-        % 'zbuffer' used to be renderer option of choice!
+        % since 'zbuffer' has been removed, use 'opengl' instead
         hFig = figure('Renderer','opengl','Colormap',jet(3000),...
                       'visible','off'); 
 
