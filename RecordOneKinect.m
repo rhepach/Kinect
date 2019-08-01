@@ -23,36 +23,25 @@ flag.Video       = 1   ; % MP4-Video recording
 global vidopen;          
 vidopen = 0;             % 0 = video file to be initialized
 
-global RecordPath;       % Path to current Recording-Folder
-global timesofrec;       % Counter for times of recording
-timesofrec = 1;   
+global RecordPath;       % path to current recording folder
+global timesofrec;       % counter for times of recording 
+timesofrec = 1;          % used for folder names & in stop script function
 
-global button;           % Recording/Stop Button
-global statebutton;      % Folder Button (Baseline/Test)
-global cnt               % Counter for states of statebutton
-cnt = 1;
-global states;           % string for statebutton
+% GUI related variables
+global gui;              % see section "GUI functionality" for buttons                  
 
-% vector of foldernames (below subject folder level)
-% push Button in right corner of GUI in order to select next folder name
-states = [cellstr('Baseline 1'); cellstr('Baseline 2');...
-          cellstr('Baseline 3');cellstr('Baseline 4');...
-          cellstr('Baseline 5');cellstr('Baseline 6');...
-          cellstr('Baseline 7');cellstr('Baseline 8');...
-          cellstr('Test 1'); cellstr('Test 2')];
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% recording 
 
-% Reset kinect objects in memory
+% reset kinect objects in memory
 imaqreset
 
-% Initialize Kinect Objects
+% initialize Kinect objects
 clear vid;
 
-% Initialize Kinect Hardware
-vid(1) = videoinput('kinect', 1); % RGB camera 1
-vid(2) = videoinput('kinect', 2); % Depth camera 1 
+% initialize Kinect hardware
+vid(1) = videoinput('kinect', 1); % RGB camera 
+vid(2) = videoinput('kinect', 2); % depth camera  
 
 % create folder for Data
 if ~(exist('Data', 'dir'))
@@ -67,16 +56,13 @@ subjectFolder = sprintf('%s_%s',TimeStamp,SubjectName);
 
 if flag.Preview
    % create a figure
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   % 'zbuffer' used to be renderer option of choice! 
-   % since it has been removed, change to opengl
-%    hFig = figure('Renderer','zbuffer','Colormap',jet(3000),...
-%                  'KeyPressFcn',@keyPress);
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   % since 'zbuffer' has been removed, changed renderer to 'opengl'
    hFig = figure('Renderer','opengl','Colormap',jet(3000),...
                  'KeyPressFcn',@keyPress);
             
    % initialize subplots
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    % Plot 1 - colorimage with skeleton
    hAxes = subplot(1,2,1,'Parent',hFig,'box','on',...
                 'XLim',[0.5 640.5],'Ylim',[0.5 480.5],'nextplot','add',...
@@ -98,20 +84,29 @@ end
 
 %% GUI functionality
 
-% initialize record button
-button = uicontrol('style','pushbutton',...
-                    'string', 'Record',...
-                    'units', 'normalized',...
-                    'position', [0.3 0 0.3 0.05],...
-                    'callback', @switchRec); 
+% initialize Recording/Stop button (change: push or spacebar)
+gui.button = uicontrol('style','pushbutton',...
+                       'string', 'Record',... % initial button label
+                       'units', 'normalized',...
+                       'position', [0.3 0 0.3 0.05],...
+                       'callback', @switchRec); % calls function in case of button press 
 
-% initialize Folder Button
-statebutton = uicontrol('style','pushbutton',...
-                        'string', 'B1',...
-                        'units', 'normalized',...
-                        'position', [0.95 0.00 0.05 0.05],...
-                        'callback', @switchState);
-                 
+% initialize folder button (see states; change: push or right arrow)
+gui.statebutton = uicontrol('style','pushbutton',...
+                            'string', 'B1',... % initial button label
+                            'units', 'normalized',...
+                            'position', [0.95 0.00 0.05 0.05],...
+                            'callback', @switchState); % calls function in case of button press
+
+gui.states = [cellstr('Baseline 1'); cellstr('Baseline 2');...
+          cellstr('Baseline 3');cellstr('Baseline 4');...
+          cellstr('Baseline 5');cellstr('Baseline 6');...
+          cellstr('Baseline 7');cellstr('Baseline 8');...
+          cellstr('Test 1'); cellstr('Test 2')];
+                         % vector of strings; folder name (below subject 
+                         % folder level) & statebutton label
+gui.cnt = 1;             % counter for states of statebutton                        
+                        
 % enable to close script via closing figure
 set(gcf,'CloseRequestFcn',{@stopScript})
 
@@ -135,7 +130,7 @@ vid.FramesPerTrigger = 1; % number of frames to acquire per trigger
 vid.TriggerRepeat = Frames; % number of additional times to execute trigger
 start(vid); % initiates data acquisition
 
-% Initialize some internal variables and counter
+% internal variables and counter
 tic
 N1 = 0; % set Frame Counter                          
 
@@ -144,8 +139,7 @@ N1 = 0; % set Frame Counter
 % exit data logging loop if any of the comparisons is true
 while ~any([N1 >= Frames,toc > RecordingTime, timesofrec == -1])
    toc1 = toc;
-   % Frame Counter
-   N1 = N1 + 1;
+   N1 = N1 + 1; % Frame Counter
    
    % trigger acquisition for all kinect objects.
    trigger(vid) 
@@ -159,15 +153,15 @@ while ~any([N1 >= Frames,toc > RecordingTime, timesofrec == -1])
    if flag.Record
        
       % create folder for corresponding number of recording 
-      if exist(strcat('Data/',subjectFolder,'/',states{cnt},...
+      if exist(strcat('Data/',subjectFolder,'/',gui.states{gui.cnt},...
                '/Recording_',num2str(timesofrec)),'dir') == 0
-         createDir(subjectFolder,strcat(states{cnt},'/Recording_',...
+         createDir(subjectFolder,strcat(gui.states{gui.cnt},'/Recording_',...
                    num2str(timesofrec)));
       end 
        
       % initialize video file & configure properties
       if (flag.Video && vidopen == 0)
-         path = fullfile('Data',subjectFolder,states{cnt});
+         path = fullfile('Data',subjectFolder,gui.states{gui.cnt});
          VideoFilename = fullfile(path,sprintf('%s_%s.%s','Recording',...
                                   num2str(timesofrec),'mp4'));
          vidObj = VideoWriter(VideoFilename,'MPEG-4'); % creates video file
@@ -180,7 +174,7 @@ while ~any([N1 >= Frames,toc > RecordingTime, timesofrec == -1])
       % remove "SegmentationData"-field 
       metaData_Depth1 = rmfield(metaData_Depth1,'SegmentationData'); 
       
-      % save data
+      % save data (3 objects)
       matfile = fullfile(RecordPath,sprintf('FRM%07d_%s.mat',N1,...
                          datestr(metaData_Depth1.AbsTime,'HHMMSS')));   
       save(matfile,'imgColor1','imgDepth1','metaData_Depth1','-v6');

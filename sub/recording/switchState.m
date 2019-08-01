@@ -1,16 +1,17 @@
-% switchState - changes statebutton + resets times of recording to 1.
+% switchState - changes label of statebutton 
+%               & resets times of recording to 1.
 
 function switchState(object_handle, event)
     global timesofrec;
-    global states;
-    global statebutton;
-    global cnt;
+    global gui
     
-    if cnt < length(states)
-        timesofrec = 1; % sets Counter for Recordings back to one 
-        cnt = cnt + 1;
-        % changes string on statebutton (e.g. B1, B2, ... T1, T2)
-        set(statebutton,'string',[states{cnt}(1),states{cnt}(end)]);
+    if gui.cnt < length(gui.states)
+        timesofrec = 1; % sets counter for recordings back to 1 
+        gui.cnt = gui.cnt + 1;
+        
+        % changes label of statebutton (e.g. B1, B2, ... T1, T2)
+        set(gui.statebutton,'string',...
+           [gui.states{gui.cnt}(1),gui.states{gui.cnt}(end)]);
     end
     
 end
