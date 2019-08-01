@@ -2,8 +2,8 @@
 %             + sets RecordPath to created folder.
 % 
 % Inputs:
-%   x     - string; usually Time Stamp & Subject Name
-%   b     - string; usually Baseline Folder, Recording, Number of Recording
+%   x     - string; Time Stamp & Subject Name
+%   b     - string; Baseline Folder, Recording, Number of Recording
 %
 function createDir(x,b)
     global RecordPath;
