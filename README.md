@@ -9,7 +9,10 @@ Each script is named after the current project it is used in and after the proce
 
 ### Prerequisites
 
+The Processing Script runs in Windows and Mac OS, whereas the Recording Script only runs in Windows so far.
+
 Kinect-Prerequisites (Versions? Anschluss an PC, ...)
+- Due to limitations of the hardware support Kinect for Xbox 360 is not suitable. 
 
 Additionally required toolbox for the recording script: Image Acquisition Toolbox.
 
@@ -19,7 +22,12 @@ In order to check if the Image Acquisition Toolbox is installed type the followi
 license('test', 'Image_Acquisition_Toolbox')
 ```
 
-The Processing Script runs in Windows and Mac OS, whereas the Recording Script only runs in Windows so far.
+Furthermore the following hardware support is needed: Image Acquisition Toolbox Support Package for Kinect For Windows Sensor. For further information see: [Hardware support for kinect in windows.](https://de.mathworks.com/hardware-support/kinect-windows.html)
+- requires:
+  - Image Acquisition Toolbox
+  - Image Processing Toolbox
+- MATLAB compatibility: R2014a to R2019a
+- platform compatibility: Windows
 
 ## Usage
 
