@@ -8,11 +8,11 @@
 SubjectName = 'elevation'; 
 %SubjectName = input('Enter Name of Subject\n', 's'); 
 
+% Add directory with required functions. 
 addpath('./sub/recording') 
 
-Frames        = Inf  ; % set max. number of Frames ("Inf" for infinite)
-RecordingTime = Inf  ; % set max. recording time (in secs, "Inf" for infinite)
-Source        = 'Kinect'; % 'Kinect' - gets data from Kinect Hardware
+Frames        = Inf  ; % set max. number of Frames 
+RecordingTime = Inf  ; % set max. recording time (in secs)
 elevationAngle = 0;    % set elevation angle for both cameras
                             
 global flag;
