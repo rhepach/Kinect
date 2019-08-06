@@ -2,39 +2,9 @@
 %
 % Matlab processing script. Generally step two in the analysis of Kinect
 % body posture data.
-% 
-% Currently used in:
-%
-% Study: ProShame (2018)
-% Researchers: Jan Engelmann, Bianca Dietrich, Stella Gerdemann, 
-% Jenny Tippmann, & Robert Hepach
-% 
-% Study: Posture CrossCultural (2018)
-% Researchers: Antje von Suchodoletz & Robert Hepach
-% 
-% Important information: This script is part of an ongoing line of research
-% and it is continuously updated. Those familiar with Matlab
-% will notice redundancies in the code and room for improvement. You are,
-% of course, free to make changes to the script for your own purposes but
-% you do so at your own risk.
-%
-% If you use the script or find it generally useful kindly support our
-% research by citing our work (see bottom of the script).
 %
 % The checksum for the latest tested version is: 
 %
-% Script written by Anja Neumann.
-% Script maintained by Robert Hepach.
-% Contact: robert.hepach@uni-leipzig.de
-%
-% Last changes 08.11.2018 by Robert Hepach
-% Fixed delete function for images within mat-files to reduce file size. 
-%
-% This is written for Mac OS (i.e., specification of folder structure).
-%
-% See bottom of the script for known bugs.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
 % Inputs: 
 %   guiData - Output from GUI
 %             char string; logical values indicating selection by '1'
@@ -47,7 +17,10 @@
 %   >> guiData(6) - extract depthframes
 %   >> guiData(7) - extract & save skeleton data
 %   >> guiData(8) - delete original color & depth images (irreversible)
+%
+% This is written for Mac OS (i.e., specification of folder structure).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Setup  
 %Clear workspace.
 clear all;
@@ -55,11 +28,11 @@ clear all;
 % should be path to current .m-file; !relative paths for data & functions
 wdFile = pwd;
 
-% Add directory with required functions. 
-addpath('.\sub\processing');
-
 % Location of recordings. Change accordindly!
 source = ('.\Data');
+
+% Add directory with required functions. 
+addpath('.\sub\processing');
 
 % Initiate GUI.
 data = [];
@@ -163,19 +136,3 @@ if ~isequal(guiData, '00000000')
         end
     end
 end
-
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Known bugs (18.06.2019)
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Hepach, R., Vaish, A., & Tomasello, M. (2015). Novel paradigms to measure
-% variability of behavior in early childhood: posture, gaze, and pupil 
-% dilation. Frontiers in psychology, 6, 858.
-% 
-% Hepach, R., Vaish, A., & Tomasello, M. (2017). The fulfillment of others’
-% needs elevates children’s body posture. Developmental psychology, 53(1), 
-% 100.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
