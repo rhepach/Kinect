@@ -11,14 +11,10 @@ Each script is named after the current project it is used in and after the proce
 
 Kinect-Prerequisites (Versions? Anschluss an PC, ...)
 
-Licenses used by
-  * the recording script:
-    - Image Acquisition Toolbox
-    - Matlab (Version?)
-  * the processing script
-    - Matlab (Version?)
+Additionally required toolbox for the recording script: Image Acquisition Toolbox.
 
 In order to check if the Image Acquisition Toolbox is installed type the following code in the MATLAB command window.
+
 ```Matlab
 license('test', 'Image_Acquisition_Toolbox')
 ```
@@ -26,6 +22,13 @@ license('test', 'Image_Acquisition_Toolbox')
 The Processing Script runs in Windows and Mac OS, whereas the Recording Script only runs in Windows so far.
 
 ## Usage
+
+### Step 1
+Collect data by using the recording script to run your Kinect and extract .mat files for each frame.
+
+### Step 2
+Run the MATLAB processing script to extract body posture information, images or delete data to reduce file size.
+
 The image below shows the processing GUI with all options to chose for processing the data.
 
 ![Image of the ProcessingGUI](ProcessingGUI.PNG)
@@ -33,7 +36,7 @@ The image below shows the processing GUI with all options to chose for processin
 ## Support
 Tell people where they can go to for help. A chat room, an email address, etc.
 
-Contact: robert.hepach@uni-leipzig.de
+? Contact: robert.hepach@uni-leipzig.de
 
 ## Roadmap
 list ideas for releases in the future.
@@ -41,7 +44,10 @@ list ideas for releases in the future.
 ## Contributing
 State if you are open to contributions and what your requirements are for accepting them.
 
-This script is part of an ongoing line of research and it is continuously updated. Those familiar with Matlab will notice redundancies in the code and room for improvement. You are, of course, free to make changes to the script for your own purposes but you do so at your own risk.
+The processing script is part of an ongoing line of research and it is continuously updated. Those familiar with Matlab will notice redundancies in the code and room for improvement.
+
+Pull requests are welcome. You are, of course, free to make changes to the script for your own purposes but you do so at your own risk.
+For major changes, please open an issue first to discuss what you would like to change.
 
 ## Authors and acknowledgment
 Processing Script:
