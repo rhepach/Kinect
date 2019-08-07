@@ -115,14 +115,18 @@ set(gcf,'CloseRequestFcn',{@stopScript})
 % video object from Depth camera  
 srcDepth = getselectedsource(vid(2));  
 
+if srcDepth.FrameRate == 15
+    disp(['Camera FrameRate set to ' num2str(srcDepth.FrameRate) ' frames. Are there any opportunities to get better lighting?'])
+end
+
 % configure camera settings     
 set(srcDepth, 'TrackingMode', 'Skeleton') % track skeleton
 set(srcDepth, 'BodyPosture', 'Standing')  % participants are standing
 % set(srcDepth, 'DepthMode', 'Near')  
 
 % set elevation angle
-% set(get(vid(1),'Source'),'CameraElevationAngle', elevationAngle)   
-% set(get(vid(2),'Source'),'CameraElevationAngle', elevationAngle)
+set(get(vid(1),'Source'),'CameraElevationAngle', elevationAngle)   
+set(get(vid(2),'Source'),'CameraElevationAngle', elevationAngle)
 
 % configure video object properties
 triggerconfig(vid,'manual'); % data logging as soon as trigger() issued
