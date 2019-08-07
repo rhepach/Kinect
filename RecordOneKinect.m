@@ -5,13 +5,13 @@
 % V1.0
 
 % set parameters for recording
-StudyName = input('Enter Name of Study\n', 's');
+studyName = input('Enter Name of Study\n', 's');
 
-if isempty(StudyName) % set default study name 
-    StudyName = 'elevation';
+if isempty(studyName) % set default study name 
+    studyName = 'elevation'; % studyName
 end
 
-SubjectName = input('Enter Name of Subject\n', 's'); 
+subjectName = input('Enter Name of Subject\n', 's');
 
 % Add directory with required functions. 
 addpath('./sub/recording') 
@@ -50,8 +50,8 @@ vid(2) = videoinput('kinect', 2); % depth camera
 
 % prepare folder names
 TimeStamp = datestr(now,30);
-studyFolder = sprintf('%s_%s', 'Data', StudyName);
-subjectFolder = sprintf('%s_%s_%s',TimeStamp, StudyName, SubjectName);
+studyFolder = sprintf('%s_%s', 'Data', studyName);
+subjectFolder = sprintf('%s_%s_%s',TimeStamp, studyName, subjectName);
 
 % create folder for Data
 if ~(exist('Data', 'dir'))
