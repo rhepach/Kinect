@@ -2,15 +2,16 @@
 %             + sets RecordPath to created folder.
 % 
 % Inputs:
-%   x     - string; Time Stamp & Subject Name
-%   b     - string; Baseline Folder, Recording, Number of Recording
-%
-function createDir(x,b)
+%   study       - string; usually name of study
+%   subject     - string; usually Time Stamp & Subject Name
+%   rec         - string; usually Baseline Folder, Recording, Number of Recording
+
+function createDir(study, subject, recording)
     global RecordPath;
     
     % creates folder for current number of recording
-    mkdir(strcat('Data','/',x),b)
+    mkdir(strcat('Data','/',study,'/',subject),recording)
     % sets RecordPath to created folder
-    RecordPath = fullfile(strcat('Data','/',x),b);
+    RecordPath = fullfile(strcat('Data','/',study,'/',subject),recording);
     
 end
