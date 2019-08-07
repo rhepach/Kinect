@@ -8,11 +8,13 @@
 % 
 % Inputs:
 %   newFile     - vector of class double; [0 1] (initial value) | [0 0]
-% 
+%   fileName    - string; path to summaryData folder; 
+%                         name includes TimeStamp & StudyName 
+%
 % Outputs:
 %   newFile     - vector of class double; [0 0]
 
-function[newFile] = skData2txt(newFile)
+function[newFile] = skData2txt(newFile, fileName)
    skPoints = {'Hip_Center', 'Spine', 'Shoulder_Center', 'Head', ...
                'Shoulder_Left','Elbow_Left','Wrist_Left','Hand_Left',...
                'Shoulder_Right','Elbow_Right','Wrist_Right','Hand_Right',...
@@ -20,11 +22,14 @@ function[newFile] = skData2txt(newFile)
                'Hip_Right','Knee_Right','Ankle_Right','Foot_Right'};
    colors = {'blue','green','red','yellow','magenta','cyan','black'};
    
-   source = evalin('base','source'); 
+   % create folder for summarized (skeleton) Data
+   if ~(exist('SummaryData', 'dir'))
+       mkdir('SummaryData')
+   end
   
    % create new file "SkeletonData" 
    if (sum(newFile) ~= 0) 
-       skDataFile = fopen(strcat(source,'/SkeletonData','.txt'),'w'); 
+       skDataFile = fopen(fileName,'w'); 
        
        % write header (tab-separated) - basic information
        fprintf(skDataFile,'%s\t%s\t%s\t%s\t',... 
@@ -44,7 +49,7 @@ function[newFile] = skData2txt(newFile)
    
    % open file "SkeletonData" & append data to end of file 
    else 
-        skDataFile = fopen(strcat(source,'/SkeletonData','.txt'),'a'); 
+        skDataFile = fopen(fileName,'a'); 
         newFile(1,2) = 0; % newFile = [0 0]; to avoid overwrite  
    end   
    

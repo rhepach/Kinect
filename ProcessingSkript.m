@@ -30,7 +30,7 @@ clear all;
 wdFile = pwd;
 
 % Location of recordings. Change accordindly!
-source = ('.\Data');
+source = ('.\Data\ExampleData');
 
 % Add directory with required functions. 
 addpath('.\sub\processing');
@@ -39,7 +39,17 @@ addpath('.\sub\processing');
 data = [];
 guiData = processingGUI(data); % selected options in GUI
 
-newFile = [0 1]; % Input for skData2txt; initial value to create new file
+% prepares input for data extraction function (skData2txt.m)
+% initial value to create new .txt file
+newFile = [0 1]; 
+% prepare fileName
+sourceSplit = strsplit(source, '\'); 
+studyName = sourceSplit{end};
+TimeStamp = datestr(now, 30);
+fileName = strcat('SummaryData/', TimeStamp, '_SkeletonData_', ...
+                  studyName,'.txt');
+
+% preparations for "delete originals"
 del = {}; % will be filled with recPaths if "delete originals" chosen
 j = 1; % counter variable for del 
 
@@ -107,7 +117,7 @@ if ~isequal(guiData, '000000000')
                     
                     % write Skeleton-Data to txt-File
                     if (guiData(7) == '1')
-                        newFile = skData2txt(newFile);
+                        newFile = skData2txt(newFile, fileName);
                     end % txt-File filled 
                     
                      % write color frames to video file 
