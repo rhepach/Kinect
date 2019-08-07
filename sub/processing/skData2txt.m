@@ -52,7 +52,7 @@ function[newFile] = skData2txt(newFile)
    subject = evalin('base','Subject{s}'); 
    trial = evalin('base','Baseline{b}'); 
    rec = evalin('base','Recording{r}'); % e.g. Recording_3
-   rec = split(rec,'_'); % rec{end} = number of recording (e.g. 3) 
+   rec = strsplit(rec,'_'); % rec{end} = number of recording (e.g. 3) 
    recPath = evalin('base','recPath');
    
    Files  = dir(fullfile(recPath,'FRM*.mat')); % frame files
