@@ -17,9 +17,10 @@ function resizeMatF(xx)
     % Check for user selection in toggle boxes.
     if ~isequal(xx,'00')
         % setup for access to frame data
-        recPath = evalin('base','recPath');   
+        recPath = evalin('base','recPath'); % path to recording folder  
         
-        Files = dir(fullfile(recPath,'FRM*.mat')); % frame files
+        % list all frame files in current recording folder
+        Files = dir(fullfile(recPath,'FRM*.mat')); 
         nFrames = numel(Files);  
         
         frameArray = cell(nFrames, 4); 
