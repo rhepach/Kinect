@@ -1,51 +1,60 @@
 # Kinect - body posture analysis
 
-One Paragraph of project description goes here.
+One Paragraph of project description goes here. 
 
-Contains all relevating scripts to run, process, and analyze posture data gathered from our Kinect-studies.
-Each script is named after the current project it is used in and after the processing step it reflects in the overall process.
+Contains all relevant scripts to run, process, and analyze posture data from Kinect studies.
+Each script is named after the processing step it reflects in the overall process.
 
 ## Getting Started
 
 ### Prerequisites
 
-The Processing Script runs in Windows and Mac OS, whereas the Recording Script only runs in Windows so far.
 
-Kinect-Prerequisites (Versions? Anschluss an PC, ...)
-- Due to limitations of the hardware support Kinect for Xbox 360 is not suitable. 
+Compatibility: 
+- The Recording Script runs on only with Windows due to compatibility with the Kinect.
+- These scripts are written for use with the Kinect V1 (vielleicht ein link dazu - stimmt das? Es gibt ja auch außer der Kinect v1 noch die v2). Due to limitations of the hardware support Kinect for Xbox 360 is not suitable. 
 
-Additionally required toolbox for the recording script: Image Acquisition Toolbox.
+Installation instructions: 
 
-In order to check if the Image Acquisition Toolbox is installed type the following code in the MATLAB command window.
+- Download and install Matlab including the Image Acquisition Toolbox
+In order to check if the Image Acquisition Toolbox is installed type the following code in the MATLAB command window: 
 
 ```Matlab
 license('test', 'Image_Acquisition_Toolbox')
 ```
-
-Furthermore the following hardware support is needed: Image Acquisition Toolbox Support Package for Kinect For Windows Sensor. For further information see: [Hardware support for kinect in windows.](https://de.mathworks.com/hardware-support/kinect-windows.html)
+The following hardware support is needed: Image Acquisition Toolbox Support Package for Kinect for Windows Sensor. For further information see: [Hardware support for kinect in windows.](https://de.mathworks.com/hardware-support/kinect-windows.html)
 - requires:
   - Image Acquisition Toolbox
-  - Image Processing Toolbox
+  - Image Processing Toolbox (heißt das man muss die Image Processing Toolbox bei Matlab installiert haben?)
 - MATLAB compatibility: R2014a to R2019a
 - platform compatibility: Windows
+
+
+The Processing Script runs on Windows and Mac OS (and Linux?)
+- requires: 
+  - Image Acquisition Toolbox? 
+
 
 ## Usage
 
 ### Step 1
-Collect data by using the recording script to run your Kinect and extract .mat files for each frame.
+Collect data by using the recording script.
+Vielleicht könnten die Instruktionen hier noch genauer sein? Vielleicht ein screenshot des Recording-skripts mit Instruktionen, wie es angepasst werden m bevor die Aufnahme gestartet wird.  
 
 ### Step 2
-Run the MATLAB processing script to extract body posture information, images or delete data to reduce file size.
+Using the .mat files for each frame, run the MATLAB processing script to extract body posture information, images or delete data to reduce file size.
+
+Vielleicht wäre hier auch ein Screenshot davon wo die Daten liegen und wie sie eingelesen werden können hilfreich? 
+
 
 The image below shows the processing GUI with all options to chose for processing the data.
 
 ![Image of the ProcessingGUI](ProcessingGUI.PNG)
 
 ## Support
-Tell people where they can go to for help. A chat room, an email address, etc.
-
-? Contact: robert.hepach@uni-leipzig.de
-
+If you are experiencing issues installing the hardware, or running the scripts, please contact
+robert.hepach@uni-leipzig.de or 
+stella.gerdemann@uni-leipzig.de und Kim? 
 ## Roadmap
 list ideas for releases in the future.
 
@@ -63,7 +72,8 @@ Processing Script:
 - maintained by Robert Hepach.
 
 Recording Script:
-- xyz
+- written by Anja Neumann.
+- maintained by Robert Hepach.
 
 If you use the script or find it generally useful kindly support our research by citing our work.
 -  Hepach, R., Vaish, A., & Tomasello, M. (2015). Novel paradigms to measure variability of behavior in early childhood: posture, gaze, and pupil dilation. _Frontiers in psychology, 6_, 858. [https://doi.org/10.3389/fpsyg.2015.00858](https://doi.org/10.3389/fpsyg.2015.00858)
