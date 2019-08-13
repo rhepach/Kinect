@@ -22,7 +22,7 @@ function varargout = processingGUI(varargin)
 
 % Edit the above text to modify the response to help processingGUI
 
-% Last Modified by GUIDE v2.5 02-Jul-2019 13:05:41
+% Last Modified by GUIDE v2.5 13-Aug-2019 16:56:27
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -103,9 +103,10 @@ function pushbutton1_Callback(hObject, eventdata, handles)
     skel = get(handles.skel,'Value');
     del = get(handles.checkbox6, 'Value');
     video = get(handles.extractVideo, 'Value');
+    sep = get(handles.sepData, 'Value');
     out = strcat(num2str(grey), num2str(half), num2str(skelPics), ...
                 num2str(pics),num2str(skelDepth),num2str(depth), ...
-                num2str(skel), num2str(video), num2str(del));
+                num2str(skel), num2str(video), num2str(del), num2str(sep));
     handles.out = out;
     guidata(hObject, handles);
     close(handles.figure1);
@@ -250,3 +251,12 @@ function extractVideo_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of extractVideo
+
+
+% --- Executes on button press in sepData.
+function sepData_Callback(hObject, eventdata, handles)
+% hObject    handle to sepData (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of sepData

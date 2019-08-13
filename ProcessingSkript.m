@@ -18,6 +18,7 @@
 %   >> guiData(7) - extract & save skeleton data
 %   >> guiData(8) - extract video (.mp4) from color images
 %   >> guiData(9) - delete original color & depth images (irreversible)
+%   >> guiData(10) - move videos & image Folders in separate folder
 
 % This is written for Mac OS (i.e., specification of folder structure).
 
@@ -55,7 +56,7 @@ j = 1; % counter variable for del
 
 %%
 % Check for user selection in toggle boxes (any option chosen).
-if ~isequal(guiData, '000000000') 
+if ~isequal(guiData, '0000000000') 
     % set working directory (might be changed by GUI)
     cd(wdFile)
     
@@ -78,7 +79,8 @@ if ~isequal(guiData, '000000000')
                 recPath = strcat(source,'/',Subject{s},'/',Baseline{b},...
                                         '/',Recording{r}); 
                 
-                Files  = dir(fullfile(recPath,'FRM*.mat')); % frame files
+                % list all frame files in current recording folder                    
+                Files  = dir(fullfile(recPath,'FRM*.mat')); 
                 nFrames = numel(Files); 
                 
                 % start processing if any frames in recording folder
@@ -120,8 +122,11 @@ if ~isequal(guiData, '000000000')
                         newFile = skData2txt(newFile, fileName);
                     end % txt-File filled 
                     
-                     % write color frames to video file 
+                    % write color frames to video file 
                     if (guiData(8) == '1'), extractVideo(recPath); end
+                    
+                    % separate generated images & videos from raw data
+                    if (guiData(10) == '1'), sepData(recPath); end
                 end 
             end
         end   
