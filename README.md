@@ -12,7 +12,7 @@ Each script is named after the current project it is used in and after the proce
 The Processing Script runs in Windows and Mac OS, whereas the Recording Script only runs in Windows so far.
 
 Kinect-Prerequisites (Versions? Anschluss an PC, ...)
-- Due to limitations of the hardware support Kinect for Xbox 360 is not suitable. 
+- Due to limitations of the hardware support Kinect for Xbox 360 is not suitable.
 
 Additionally required toolbox for the recording script: Image Acquisition Toolbox.
 
@@ -34,6 +34,8 @@ Furthermore the following hardware support is needed: Image Acquisition Toolbox 
 ### Step 1
 Collect data by using the recording script to run your Kinect and extract .mat files for each frame.
 
+![Image of the Recording GUI](RecordingGUI.PNG)
+
 ### Step 2
 Run the MATLAB processing script to extract body posture information, images or delete data to reduce file size.
 
@@ -44,7 +46,9 @@ The image below shows the processing GUI with all options to chose for processin
 ## Support
 Tell people where they can go to for help. A chat room, an email address, etc.
 
-? Contact: robert.hepach@uni-leipzig.de
+
+
+? Contact: robert.hepach@uni-leipzig.de, stella.gerdemann@uni-leipzig
 
 ## Roadmap
 list ideas for releases in the future.
@@ -60,7 +64,7 @@ For major changes, please open an issue first to discuss what you would like to 
 ## Authors and acknowledgment
 Processing Script:
 - written by Anja Neumann.
-- maintained by Robert Hepach.
+- maintained by Robert Hepach, Stella Gerdemann, Kim-Laura Speck.
 
 Recording Script:
 - xyz
