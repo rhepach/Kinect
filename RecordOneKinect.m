@@ -5,8 +5,13 @@
 % V1.0
 
 % set parameters for recording
-SubjectName = 'elevation'; 
-%SubjectName = input('Enter Name of Subject\n', 's'); 
+studyName = input('Enter Name of Study\n', 's');
+
+if isempty(studyName) % set default study name 
+    studyName = 'elevation'; % studyName
+end
+
+subjectName = input('Enter Name of Subject\n', 's');
 
 % Add directory with required functions. 
 addpath('./sub/recording') 
@@ -43,14 +48,20 @@ clear vid;
 vid(1) = videoinput('kinect', 1); % RGB camera 
 vid(2) = videoinput('kinect', 2); % depth camera  
 
+% prepare folder names
+TimeStamp = datestr(now,30);
+studyFolder = sprintf('%s_%s', 'Data', studyName);
+subjectFolder = sprintf('%s_%s_%s',TimeStamp, studyName, subjectName);
+
 % create folder for Data
 if ~(exist('Data', 'dir'))
    mkdir('Data')
 end
 
-% prepare folder names
-TimeStamp = datestr(now,30);
-subjectFolder = sprintf('%s_%s',TimeStamp,SubjectName);
+% create subfolder for Data of specific study
+if ~(exist(fullfile('Data', studyFolder)))
+    mkdir(fullfile('Data', studyFolder))
+end
 
 %% initialize Realtime Preview
 
@@ -157,15 +168,16 @@ while ~any([N1 >= Frames,toc > RecordingTime, timesofrec == -1])
    if flag.Record
        
       % create folder for corresponding number of recording 
-      if exist(strcat('Data/',subjectFolder,'/',gui.states{gui.cnt},...
-               '/Recording_',num2str(timesofrec)),'dir') == 0
-         createDir(subjectFolder,strcat(gui.states{gui.cnt},'/Recording_',...
-                   num2str(timesofrec)));
+      if exist(strcat('Data/',studyFolder,'/',subjectFolder,'/',...
+                      gui.states{gui.cnt},...
+                      '/Recording_',num2str(timesofrec)),'dir') == 0
+         createDir(studyFolder,subjectFolder,strcat(gui.states{gui.cnt},...
+                   '/Recording_',num2str(timesofrec)));
       end 
        
       % initialize video file & configure properties
       if (flag.Video && vidopen == 0)
-         path = fullfile('Data',subjectFolder,gui.states{gui.cnt});
+         path = fullfile('Data',studyFolder,subjectFolder,gui.states{gui.cnt});
          VideoFilename = fullfile(path,sprintf('%s_%s.%s','Recording',...
                                   num2str(timesofrec),'mp4'));
          vidObj = VideoWriter(VideoFilename,'MPEG-4'); % creates video file

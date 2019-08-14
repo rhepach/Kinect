@@ -78,7 +78,7 @@ function ExtractPNGs(metaData_Depth1, imgData, k, x, y, type)
         if (x == '1') 
             cnt = 0; % counter for non-empty matrices in JointImageIndices
             
-            for n = 1:6 % length(metaData_Depth1.IsSkeletonTracked) = 6
+            for n = 1:6 % all possible slots for tracked skeletons 
                 if metaData_Depth1.IsSkeletonTracked(n) 
                     jointIndices = metaData_Depth1.JointImageIndices(:,:,n); 
                     % size(metaData_Depth1.JointImageIndices) = [20 2 6]

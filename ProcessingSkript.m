@@ -18,6 +18,7 @@
 %   >> guiData(7) - extract & save skeleton data
 %   >> guiData(8) - extract video (.mp4) from color images
 %   >> guiData(9) - delete original color & depth images (irreversible)
+%   >> guiData(10) - move videos & image Folders in separate folder
 
 % This is written for Mac OS (i.e., specification of folder structure).
 
@@ -30,7 +31,7 @@ clear all;
 wdFile = pwd;
 
 % Location of recordings. Change accordindly!
-source = ('.\Data');
+source = ('.\Data\ExampleData');
 
 % Add directory with required functions. 
 addpath('.\sub\processing');
@@ -39,13 +40,23 @@ addpath('.\sub\processing');
 data = [];
 guiData = processingGUI(data); % selected options in GUI
 
-newFile = [0 1]; % Input for skData2txt; initial value to create new file
+% prepares input for data extraction function (skData2txt.m)
+% initial value to create new .txt file
+newFile = [0 1]; 
+% prepare fileName
+sourceSplit = strsplit(source, '\'); 
+studyName = sourceSplit{end};
+TimeStamp = datestr(now, 30);
+fileName = strcat('SummaryData/', TimeStamp, '_SkeletonData_', ...
+                  studyName,'.txt');
+
+% preparations for "delete originals"
 del = {}; % will be filled with recPaths if "delete originals" chosen
 j = 1; % counter variable for del 
 
 %%
 % Check for user selection in toggle boxes (any option chosen).
-if ~isequal(guiData, '000000000') 
+if ~isequal(guiData, '0000000000') 
     % set working directory (might be changed by GUI)
     cd(wdFile)
     
@@ -68,7 +79,8 @@ if ~isequal(guiData, '000000000')
                 recPath = strcat(source,'/',Subject{s},'/',Baseline{b},...
                                         '/',Recording{r}); 
                 
-                Files  = dir(fullfile(recPath,'FRM*.mat')); % frame files
+                % list all frame files in current recording folder                    
+                Files  = dir(fullfile(recPath,'FRM*.mat')); 
                 nFrames = numel(Files); 
                 
                 % start processing if any frames in recording folder
@@ -107,11 +119,14 @@ if ~isequal(guiData, '000000000')
                     
                     % write Skeleton-Data to txt-File
                     if (guiData(7) == '1')
-                        newFile = skData2txt(newFile);
+                        newFile = skData2txt(newFile, fileName);
                     end % txt-File filled 
                     
-                     % write color frames to video file 
+                    % write color frames to video file 
                     if (guiData(8) == '1'), extractVideo(recPath); end
+                    
+                    % separate generated images & videos from raw data
+                    if (guiData(10) == '1'), sepData(recPath); end
                 end 
             end
         end   

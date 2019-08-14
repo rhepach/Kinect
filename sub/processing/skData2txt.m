@@ -1,18 +1,20 @@
-% skData2txt - Write skeleton data to textfile.
+% skData2txt - Write skeleton data to textfile in folder "summaryData".
 % 
 % Usage:
-%    >> [0 0] = skData2txt([0 1]) % (opens or) creates file "SkeletonData";
+%    >> [0 0] = skData2txt([0 1]) % (opens or) creates file;
 %                                 % discards any existing content in file
-%    >> [0 0] = skData2txt([0 0]) % opens (or creates) file "SkeletonData";
+%    >> [0 0] = skData2txt([0 0]) % opens (or creates) file;
 %                                 % appends new data to the end of the file
 % 
 % Inputs:
 %   newFile     - vector of class double; [0 1] (initial value) | [0 0]
-% 
+%   fileName    - string; path to summaryData folder; 
+%                         name includes TimeStamp & StudyName 
+%
 % Outputs:
 %   newFile     - vector of class double; [0 0]
 
-function[newFile] = skData2txt(newFile)
+function[newFile] = skData2txt(newFile, fileName)
    skPoints = {'Hip_Center', 'Spine', 'Shoulder_Center', 'Head', ...
                'Shoulder_Left','Elbow_Left','Wrist_Left','Hand_Left',...
                'Shoulder_Right','Elbow_Right','Wrist_Right','Hand_Right',...
@@ -20,11 +22,26 @@ function[newFile] = skData2txt(newFile)
                'Hip_Right','Knee_Right','Ankle_Right','Foot_Right'};
    colors = {'blue','green','red','yellow','magenta','cyan','black'};
    
-   source = evalin('base','source'); 
+   % get information from base workspace
+   subject = evalin('base','Subject{s}'); % Timestamp_SubjectName
+   trial = evalin('base','Baseline{b}'); % e.g. Baseline 2
+   rec = evalin('base','Recording{r}'); % e.g. Recording_3
+   recPath = evalin('base','recPath'); % path to current recording folder
+   
+   % extract recording identifier
+   rec = strsplit(rec,'_');  
+   rec = {rec{2:length(rec)}}; % exclude 'Recording' from identifier
+   recIx = strjoin(rec, '_'); % recording identifier 
+   
+   
+   % create folder for summarized (skeleton) Data
+   if ~(exist('SummaryData', 'dir'))
+       mkdir('SummaryData')
+   end
   
    % create new file "SkeletonData" 
    if (sum(newFile) ~= 0) 
-       skDataFile = fopen(strcat(source,'/SkeletonData','.txt'),'w'); 
+       skDataFile = fopen(fileName,'w'); 
        
        % write header (tab-separated) - basic information
        fprintf(skDataFile,'%s\t%s\t%s\t%s\t',... 
@@ -44,18 +61,12 @@ function[newFile] = skData2txt(newFile)
    
    % open file "SkeletonData" & append data to end of file 
    else 
-        skDataFile = fopen(strcat(source,'/SkeletonData','.txt'),'a'); 
+        skDataFile = fopen(fileName,'a'); 
         newFile(1,2) = 0; % newFile = [0 0]; to avoid overwrite  
    end   
    
-   % get information from base workspace
-   subject = evalin('base','Subject{s}'); 
-   trial = evalin('base','Baseline{b}'); 
-   rec = evalin('base','Recording{r}'); % e.g. Recording_3
-   rec = strsplit(rec,'_'); % rec{end} = number of recording (e.g. 3) 
-   recPath = evalin('base','recPath');
-   
-   Files  = dir(fullfile(recPath,'FRM*.mat')); % frame files
+   % list all frame files in current recording folder 
+   Files  = dir(fullfile(recPath,'FRM*.mat')); 
    nFrames = numel(Files);
    
    for iFrame = 1:nFrames
@@ -67,10 +78,10 @@ function[newFile] = skData2txt(newFile)
             jwc = metaData_Depth1.JointWorldCoordinates;
             
             % append joint coordinates (skeletal data) to .txt-file
-            for k = 1:6 % 6 = number of matrices in jwc             
+            for k = 1:6 % all possible slots for tracked skeletons in jwc             
                 if ~isequal(jwc(:,:,k), zeros(20, 3)) 
                     % Subject   Trial	Recording
-                    fprintf(skDataFile,'%s\t%s\t%s\t', subject, trial, rec{end});
+                    fprintf(skDataFile,'%s\t%s\t%s\t', subject, trial, recIx);
                     % Frame Kinect  Sk_color
                     fprintf(skDataFile,'%s\t%d\t%s\t', fName(4:end), 1, colors{k});
                     % joint coordinates (3 at once)
