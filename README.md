@@ -44,7 +44,7 @@ Once the script is executed an command line input of the study name and subseque
 -  By pressing the "Record" button the recording could be started/stopped.
 - By pressing the button in the right corner a new folder below the subject folder level will be generated.
 
-![Image of the Recording GUI](ressources\RecordingGUI.PNG)
+![Image of the Recording GUI](ressources/RecordingGUI.PNG)
 
 <br/>
 
@@ -61,7 +61,7 @@ In order to use the processing script it is necessary to specify the directory t
 Note that the required subfunctions should be located in the folder "processing" which is a subfolder of "sub".
 
 See the image below for an illustrative folder structure.
-![Image of an illustrative folder structure](ressources\folderStructure.PNG)
+![Image of an illustrative folder structure](ressources/folderStructure.PNG)
 
 <br/>
 
@@ -69,7 +69,7 @@ Once you run the script a window will pop up - the processing GUI (see the image
 - By ticking the individual checkboxes the corresponding processing will be executed as soon as the ok button will be pressed.
 - The listbox on the right-hand side of the GUI could be used to browse through the content of the folders. Selecting a folder inside the listbox won't change the indicated folder with the data to be processed.
 
-![Image of the ProcessingGUI](ressources\ProcessingGUI.PNG)
+![Image of the ProcessingGUI](ressources/ProcessingGUI.PNG)
 
 ## Support
 
