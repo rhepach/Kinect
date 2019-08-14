@@ -9,30 +9,29 @@ Each script is named after the processing step it reflects in the overall proces
 
 ### Prerequisites
 
-Compatibility: 
-- The Recording Script runs on only with Windows due to compatibility with the Kinect.
-- These scripts are written for use with the Kinect V1 (vielleicht ein link dazu - stimmt das? Es gibt ja auch außer der Kinect v1 noch die v2). Due to limitations of the hardware support Kinect for Xbox 360 is not suitable.
+Compatibility:
+
+- The Recording Script runs only with Windows due to compatibility with the Kinect.
+- These scripts are written for use with the Kinect for Windows v1 (Model 1517) (vielleicht ein link dazu). Due to limitations of the hardware support Kinect for Xbox 360 is not suitable.
 
 Installation instructions:
 
-- Download and install Matlab including the Image Acquisition Toolbox
-In order to check if the Image Acquisition Toolbox is installed type the following code in the MATLAB command window:
+- Download and install Matlab including the Image Acquisition Toolbox and the Image Processing Toolbox.
+In order to check if the Image Acquisition Toolbox is installed navigate to the Add-On Manager MATLAB (Home tab - Add-Ons - Manage Add-Ons) or type the following code in the MATLAB command window:
 
 ```Matlab
 license('test', 'Image_Acquisition_Toolbox')
 ```
-The following hardware support is needed: Image Acquisition Toolbox Support Package for Kinect for Windows Sensor. For further information see: [Hardware support for kinect in windows.](https://de.mathworks.com/hardware-support/kinect-windows.html)
-- requires:
-  - Image Acquisition Toolbox
-  - Image Processing Toolbox (heißt das man muss die Image Processing Toolbox bei Matlab installiert haben?)
-- MATLAB compatibility: R2014a to R2019a
-- platform compatibility: Windows
-
+- In addition the following hardware support is needed: [Image Acquisition Toolbox Support Package for Kinect for Windows Sensor](https://de.mathworks.com/hardware-support/kinect-windows.html). For further information and to download the package navigate to the Add-On Explorer in MATLAB (Home tab - Add-Ons - Get Hardware Support Packages) and search for the package or follow the link above.
+  - requires:
+    - MATLAB compatibility: R2013a and later; with
+      - Image Acquisition Toolbox
+      - Image Processing Toolbox
+  - platform compatibility: Windows (starting with R2016a only for Windows 64-Bit)
+  - Third-Party requirements: [Kinect for Windows Runtime v1.6](https://www.microsoft.com/en-us/download/details.aspx?id=34811); should get installed by the hardware support package
 
 The Processing Script runs on Windows and Mac OS (and Linux?)
-- requires:
-  - Image Acquisition Toolbox?
-
+- requires: MATLAB (Version compatibility)
 
 ## Usage
 
