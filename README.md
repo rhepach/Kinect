@@ -1,28 +1,26 @@
 # Kinect - body posture analysis
 
-One Paragraph of project description goes here.
-
-Contains all relevant scripts to run, process, and analyze posture data from Kinect studies.
+This repository contains all relevant scripts to run, process, and analyze posture data from Kinect studies.
 Each script is named after the processing step it reflects in the overall process.
 
 ## Getting Started
 
 ### Prerequisites
 
-Compatibility:
+__Compatibility__:
 
 - The Recording Script runs __only__ with Windows due to compatibility with the Kinect.
 - These scripts are written for use with the Kinect for Windows v1 (Model 1517). Due to limitations of the hardware support the Kinect for Xbox 360 is __not__ suitable.
 
-Installation instructions:
+__Installation instructions__:
 
-- Download and install Matlab including the Image Acquisition Toolbox and the Image Processing Toolbox.
+- Download and install Matlab including the Image Acquisition Toolbox and the Image Processing Toolbox. <br/>
 In order to check if the Image Acquisition Toolbox is installed navigate to the Add-On Manager in MATLAB (Home tab - Add-Ons - Manage Add-Ons) or type the following code in the MATLAB command window:
 
 ```Matlab
 license('test', 'Image_Acquisition_Toolbox')
 ```
-- In addition the following hardware support is needed: [Image Acquisition Toolbox Support Package for Kinect for Windows Sensor](https://de.mathworks.com/hardware-support/kinect-windows.html). For further information and to download the package navigate to the Add-On Explorer in MATLAB (Home tab - Add-Ons - Get Hardware Support Packages) and search for the package or follow the link above.
+- In addition the following hardware support is necessary: [Image Acquisition Toolbox Support Package for Kinect for Windows Sensor](https://de.mathworks.com/hardware-support/kinect-windows.html). For further information and to download the package navigate to the Add-On Explorer in MATLAB (Home tab - Add-Ons - Get Hardware Support Packages) and search for the package or follow the link above.
   - requires:
     - MATLAB compatibility: R2013a and later; with
       - Image Acquisition Toolbox
@@ -38,10 +36,9 @@ The Processing Script runs on Windows and Mac OS (and Linux?)
 ### Step 1 - recording
 Collect data by using the recording script.
 
-To use the recording script the Kinect should already be connected to your computer via a USB-port.
-
-Once the script is executed an command line input of the study name and subsequently the subject name will be requested. Afterwards, the recording GUI (see the image below) continuously showing the the camera input pops up.
--  By pressing the "Record" button the recording could be started/stopped.
+To use the recording script the Kinect should already be connected to your computer via a USB-port. <br/>
+Once the script is executed a command line input of the study name and subsequently the subject name will be requested. Afterwards, the recording GUI (see the image below), continuously showing the the camera input, pops up.
+-  By pressing the "Record" button the recording could be started and stopped.
 - By pressing the button in the right corner a new folder below the subject folder level will be generated.
 
 ![Image of the Recording GUI](ressources/RecordingGUI.PNG)
@@ -51,16 +48,18 @@ Once the script is executed an command line input of the study name and subseque
 For further information concerning options and usage see the preamble of the recording script [(RecordOneKinect.m)](https://github.com/rhepach/Kinect/blob/master/RecordOneKinect.m).
 
 ### Step 2 - processing
-Using the .mat files for each frame, run the MATLAB processing script to extract body posture information, images or delete data to reduce file size.
+Run the MATLAB processing script to extract body posture information and images from the .mat files for each frame or delete data to reduce the .mat file size.
 
-In order to use the processing script it is necessary to specify the directory to the study data folder. The structure below the indicated folder should comprise three levels.
-1. The first level would be the subject level with one folder for each subject.
+In order to use the processing script, it is necessary to specify the directory to the study data folder. The structure below the indicated folder should comprise three levels.
+1. The first level should be the subject level with one folder for each subject.
 2. Each subject folder comprises Baseline/Test folders ...
 3. ... in which the Recording folders with the single .mat frame files should be stored.
 
 Note that the required subfunctions should be located in the folder "processing" which is a subfolder of "sub".
 
 See the image below for an illustrative folder structure.
+<br/>
+
 ![Image of an illustrative folder structure](ressources/folderStructure.PNG)
 
 <br/>
@@ -73,20 +72,17 @@ Once you run the script a window will pop up - the processing GUI (see the image
 
 ## Support
 
-If you are experiencing issues installing the hardware, or running the scripts, please contact
-robert.hepach@uni-leipzig.de or
-stella.gerdemann@uni-leipzig.de und Kim?
-
-(Tell people where they can go to for help. A chat room, an email address, etc.)
+If you are experiencing issues installing the hardware, or running the scripts, please contact <br/>
+robert.hepach@uni-leipzig.de or <br/>
+stella.gerdemann@uni-leipzig.de or <br/>
+ks56cyvu@studserv.uni.leipzig.de
 
 ## Roadmap
 list ideas for releases in the future.
 
 ## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
 
-The processing script is part of an ongoing line of research and it is continuously updated. Those familiar with Matlab will notice redundancies in the code and room for improvement.
-
+The processing script is part of an ongoing line of research and it is continuously updated. Those familiar with Matlab will notice redundancies in the code and room for improvement. <br/>
 Pull requests are welcome. You are, of course, free to make changes to the script for your own purposes but you do so at your own risk.
 For major changes, please open an issue first to discuss what you would like to change.
 
