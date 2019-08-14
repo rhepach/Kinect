@@ -1,27 +1,47 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% V1.0 (14.08.2019)
 %
-% Matlab processing script. Generally step two in the analysis of Kinect
-% body posture data.
+% MATLAB processing script. Generally step two in the recording and 
+% analysis of Kinect body posture data.
+%
+% Prerequisites:
+%   To use the processing script specify the directory to the study data 
+%   folder in the variable "source". 
+%   The structure below the indicated folder should comprise three levels. 
+%   The first level would be the subject level with one folder for each 
+%   subject. Each subject folder comprises Baseline/Test folders in which 
+%   the Recording folders with the single .mat frame files should be stored.
+%   Note that the required subfunctions should be located in the folder
+%   "processing" which is a subfolder of "sub". 
+%
+% Usage:
+%   Once you run the script a window will pop up - the processing GUI.
+%   By ticking the individual checkboxes the corresponding processing will 
+%   be executed as soon as the ok button will be pressed.
+%   The listbox on the right-hand side of the GUI could be used to browse 
+%   through the content of the folders. Selecting a folder inside the
+%   listbox won't change the indicated folder with the data to be processed. 
 %
 % The checksum for the latest tested version is: 
 %
+% This is written for Mac OS (i.e., specification of folder structure).
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Inputs: 
 %   guiData - Output from GUI
 %             char string; logical values indicating selection by '1'
 % 
-%   >> guiData(1) - greyscale images
-%   >> guiData(2) - halfsize images
-%   >> guiData(3) - extract colorframes with skeleton
-%   >> guiData(4) - extract colorframes 
-%   >> guiData(5) - extract depthframes with skeleton
-%   >> guiData(6) - extract depthframes
-%   >> guiData(7) - extract & save skeleton data
-%   >> guiData(8) - extract video (.mp4) from color images
-%   >> guiData(9) - delete original color & depth images (irreversible)
-%   >> guiData(10) - move videos & image Folders in separate folder
-
-% This is written for Mac OS (i.e., specification of folder structure).
-
+%   >> guiData(1)   - greyscale images
+%   >> guiData(2)   - halfsize images
+%   >> guiData(3)   - extract colorframes with skeleton
+%   >> guiData(4)   - extract colorframes 
+%   >> guiData(5)   - extract depthframes with skeleton
+%   >> guiData(6)   - extract depthframes
+%   >> guiData(7)   - extract & save skeleton data
+%   >> guiData(8)   - extract video (.mp4) from color images
+%   >> guiData(9)   - delete original color & depth data (irreversible)
+%   >> guiData(10)  - move videos & image Folders in separate folder
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Setup  
 %Clear workspace.
