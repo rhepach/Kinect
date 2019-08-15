@@ -28,8 +28,8 @@ license('test', 'Image_Acquisition_Toolbox')
   - platform compatibility: Windows (MATLAB R2016a or later only for Windows 64-Bit)
   - Third-Party requirements: [Kinect for Windows Runtime v1.6](https://www.microsoft.com/en-us/download/details.aspx?id=34811); should get installed by the hardware support package
 
-The Processing Script runs on Windows and Mac OS (and Linux?)
-- requires: MATLAB (Version compatibility)
+The Processing Script runs on Windows, Mac OS and Linux.
+- requires: MATLAB (Version compatibility?)
 
 ## Usage
 
