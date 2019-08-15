@@ -51,10 +51,10 @@ clear all;
 wdFile = pwd;
 
 % Location of recordings. Change accordindly!
-source = ('.\Data\ExampleData');
+source = ('./Data/ExampleData');
 
 % Add directory with required functions. 
-addpath('.\sub\processing');
+addpath('./sub/processing');
 
 % Initiate GUI.
 data = [];
@@ -64,7 +64,7 @@ guiData = processingGUI(data); % selected options in GUI
 % initial value to create new .txt file
 newFile = [0 1]; 
 % prepare fileName
-sourceSplit = strsplit(source, '\'); 
+sourceSplit = strsplit(source, '/'); 
 studyName = sourceSplit{end};
 TimeStamp = datestr(now, 30);
 fileName = strcat('SummaryData/', TimeStamp, '_SkeletonData_', ...

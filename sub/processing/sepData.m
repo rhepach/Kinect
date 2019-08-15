@@ -3,7 +3,7 @@
 %           another folder ('ImagesOnly').
 %
 % Usage:
-%   >> sepData('.\Data\ExampleData\[...]\Recording_1')
+%   >> sepData('./Data/ExampleData/[...]/Recording_1')
 %
 % Input:
 %   recPath - full path to current recording folder
