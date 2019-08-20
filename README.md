@@ -39,7 +39,7 @@ The Processing Script runs on Windows and Mac OS (and Linux?)
 
 ### Step 1
 Collect data by using the recording script.
-Vielleicht könnten die Instruktionen hier noch genauer sein? Vielleicht ein screenshot des Recording-skripts mit Instruktionen, wie es angepasst werden m bevor die Aufnahme gestartet wird.  
+Vielleicht könnten die Instruktionen hier noch genauer sein? Vielleicht ein Screenshot des Recording-skripts mit Instruktionen, wie es angepasst werden müsste bevor die Aufnahme gestartet wird.  
 
 ### Step 2
 Using the .mat files for each frame, run the MATLAB processing script to extract body posture information, images or delete data to reduce file size.
