@@ -68,9 +68,14 @@ The necessary data structure is given for the ExampleData in the Kinect reposito
 ### Step 2 - processing
 Run the MATLAB processing script to extract body posture information and images from the .mat files for each frame or delete data to reduce the .mat file size.
 
-Before you are ready to start the processing script, it is necessary to change the directory to the study data folder. Therefore you have to modify the variable "source". Thus the directory to the ExampleData folder has to be replaced with the path to your own study data folder (e.g. "myData").
+Before you are ready to start the processing script, it is necessary to change the directory to the study data folder. Therefore you have to modify the variable "source". Thus the directory to the ExampleData folder has to be replaced with the path to your own study data folder (e.g. "myData" as subfolder inside "Data").
 
-  
+Example                    |  modified
+:-------------------------:|:-------------------------:
+![modify Source](ressources/changeSource.png) |![modified Source](ressources/changedSource.png)
+
+
+
 
 <br/>
 Once you run the script a window will pop up - the processing GUI (see the image below).
