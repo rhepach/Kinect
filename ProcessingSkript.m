@@ -50,7 +50,7 @@ clear all;
 % should be path to current .m-file; !relative paths for data & functions
 wdFile = pwd;
 
-% Location of recordings. Change accordindly!
+% Location of recordings. Change accordingly!
 source = ('./Data/ExampleData');
 
 % Add directory with required functions. 
