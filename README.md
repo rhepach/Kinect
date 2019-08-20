@@ -70,17 +70,15 @@ Run the MATLAB processing script to extract body posture information and images 
 
 Before you are ready to start the processing script, it is necessary to change the directory to the study data folder. Therefore you have to modify the variable "source". Thus the directory to the ExampleData folder has to be replaced with the path to your own study data folder (e.g. "myData" as subfolder inside "Data").
 
-Example                    |  modified
+example                    |  modified
 :-------------------------:|:-------------------------:
 ![modify Source](ressources/changeSource.png) |![modified Source](ressources/changedSource.png)
-
-
-
 
 <br/>
 Once you run the script a window will pop up - the processing GUI (see the image below).
 - By ticking the individual checkboxes the corresponding processing will be executed as soon as the ok button will be pressed.
 - The listbox on the right-hand side of the GUI could be used to browse through the content of the folders. Selecting a folder inside the listbox won't change the indicated folder with the data to be processed.
+<br/>
 
 ![Image of the ProcessingGUI](ressources/ProcessingGUI.PNG)
 
