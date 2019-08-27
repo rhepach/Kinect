@@ -29,16 +29,16 @@ license('test', 'Image_Acquisition_Toolbox')
   - Third-Party requirements: [Kinect for Windows Runtime v1.6](https://www.microsoft.com/en-us/download/details.aspx?id=34811); should get installed by the hardware support package
 
 The Processing Script runs on Windows, Mac OS and Linux.
-- requires: MATLAB (Version compatibility?)
+- requires: MATLAB
 
 ## Usage
 
-### Step 1 - recording
-Collect data by using the recording script.
+### Step 1 - Recording
+Collect data by using the recording script. The recording script should be located at the same level as the "sub" folder. The recording script accesses the "recording" support functions within this folder. 
 
 To use the recording script the Kinect should already be connected to your computer via a USB-port. <br/>
 Once the script is executed a command line input of the study name and subsequently the subject name will be requested. Afterwards, the recording GUI (see the image below), continuously showing the the camera input, pops up.
--  By pressing the "Record" button the recording could be started and stopped.
+- By pressing the "Record" button the recording could be started and stopped.
 - By pressing the button in the right corner a new folder below the subject folder level will be generated.
 
 ![Image of the Recording GUI](ressources/RecordingGUI.PNG)
@@ -48,13 +48,15 @@ Once the script is executed a command line input of the study name and subsequen
 For further information concerning options and usage see the preamble of the recording script [(RecordOneKinect.m)](https://github.com/rhepach/Kinect/blob/master/RecordOneKinect.m).
 
 ### Preparations for Step 2
+The processing script should be located at the same level as the "sub" folder. The required support functions should be located in the folder "processing" which is a subfolder of "sub".
+
 
 In order to use the processing script, it is necessary to specify the directory to the study data folder. The structure below the indicated folder has to comprise three levels.
 1. The first level should be the subject level with one folder for each subject.
-2. Each subject folder comprises Baseline/Test folders ...
-3. ... in which the Recording folders with the single .mat frame files should be stored.
+2. Each subject folder comprises baseline and test folders.
+3. In each of these, there are recording folders, which contain the .mat files. 
 
-Note that the required subfunctions should be located in the folder "processing" which is a subfolder of "sub".
+
 
 See the image below for an illustrative folder structure. <br/>
 In this case the study data folder "ExampleData" is situated below the general Data folder. Inside the study data folder, two subject folders are located. The files on the right-hand side of the image show the content of the "Recording_2" folder inside the "Baseline 3" folder.
@@ -65,10 +67,10 @@ In this case the study data folder "ExampleData" is situated below the general D
 <br/>
 The necessary data structure is given for the ExampleData in the Kinect repository and will be generated automatically by the attached recording script.
 
-### Step 2 - processing
+### Step 2 - Processing
 Run the MATLAB processing script to extract body posture information and images from the .mat files for each frame or delete data to reduce the .mat file size.
 
-Before you are ready to start the processing script, it is necessary to change the directory to the study data folder. Therefore you have to modify the variable "source". Thus the directory to the ExampleData folder has to be replaced with the path to your own study data folder (e.g. "myData" as subfolder inside "Data").
+Before you are ready to start the processing script, it is necessary to change the directory to the study data folder. Therefore you have to modify the variable "source". If you change the name of the study data folder (e.g. from "ExampleData" to "myData"), then this needs to be changed in the processing script accordingly (see example image below).
 
 example                    |  modified
 :-------------------------:|:-------------------------:
@@ -81,15 +83,18 @@ Once you run the script a window will pop up - the processing GUI (see the image
 
 ![Image of the ProcessingGUI](ressources/ProcessingGUI.PNG)
 
+### Step 3 - Processing and Data Analysis in R
+Step 2 creates .txt data showing the x-, y-, and z-coordinates for each of the tracked skeletons for each .mat frame, which can for further body posture analyseses. These are executed in R. The "Data" folder in this repository shows an example of the further processing and analysis steps with data from two adults. For further examples see: https://osf.io/xem8k/. 
+
 ## Support
 If you are experiencing issues installing the hardware, or running the scripts, please contact <br/>
-robert.hepach@uni-leipzig.de or <br/>
-stella.gerdemann@uni-leipzig.de or <br/>
-ks56cyvu@studserv.uni.leipzig.de
+Robert Hepach, robert.hepach@uni-leipzig.de or <br/>
+Stella Gerdemann, stella.gerdemann@uni-leipzig.de or <br/>
+Kim-Laura Speck, ks56cyvu@studserv.uni.leipzig.de
 
 ## Roadmap
 
-- script modifications to enable the use of the Kinect for Windows v2 and therefore overcome frame rate limitations
+- Script modifications to enable the use of the Kinect for Windows v2 and therefore overcome frame rate limitations
 
 ## Contributing
 
