@@ -13,14 +13,28 @@
 %
 % Outputs:
 %   newFile     - vector of class double; [0 0]
+%
+% Content of .txt file (tab separated)
+%   Subject    - subject folder name with time stamp & subject name 
+%                e.g "20190807T151654_002"
+%   Trial      - baseline folder name (level 2) e.g. "Baseline 2"
+%   Recording  - identifier extracted from recording folder name (level 3)
+%                e.g. 1_3 in case of "Recording_1_3"
+%   Frame      - frame number & time stamp extracted from .mat file name
+%   Kinect     - indicates which Kinect (1 or 2); set to 1 
+%   Sk_color   - color in colors depending on slot of tracked skeleton (1:6)
+%   20 Skeleton Points (see skPoints):
+%   Hip_Center - JointWorldCoordinate from meta data for hip center 
+%   Spine      - JointWorldCoordinate from meta data for spine
+%   ...
 
 function[newFile] = skData2txt(newFile, fileName)
+   colors = {'blue','green','red','yellow','magenta','cyan','black'};
    skPoints = {'Hip_Center', 'Spine', 'Shoulder_Center', 'Head', ...
                'Shoulder_Left','Elbow_Left','Wrist_Left','Hand_Left',...
                'Shoulder_Right','Elbow_Right','Wrist_Right','Hand_Right',...
                'Hip_Left','Knee_Left','Ankle_Left','Foot_Left',...
                'Hip_Right','Knee_Right','Ankle_Right','Foot_Right'};
-   colors = {'blue','green','red','yellow','magenta','cyan','black'};
    
    % get information from base workspace
    subject = evalin('base','Subject{s}'); % Timestamp_SubjectName
@@ -80,7 +94,7 @@ function[newFile] = skData2txt(newFile, fileName)
             % append joint coordinates (skeletal data) to .txt-file
             for k = 1:6 % all possible slots for tracked skeletons in jwc             
                 if ~isequal(jwc(:,:,k), zeros(20, 3)) 
-                    % Subject   Trial	Recording
+                    % Subject   Trial	Recording identifier
                     fprintf(skDataFile,'%s\t%s\t%s\t', subject, trial, recIx);
                     % Frame Kinect  Sk_color
                     fprintf(skDataFile,'%s\t%d\t%s\t', fName(4:end), 1, colors{k});
