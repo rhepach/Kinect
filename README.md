@@ -83,7 +83,9 @@ Once you run the script a window will pop up - the processing GUI (see the image
 ![Image of the ProcessingGUI](ressources/ProcessingGUI.PNG)
 
 ### Step 3 - Processing and Data Analysis in R
-Step 2 ("Extract and save skeleton data") creates a .txt file showing the x-, y-, and z-coordinates for each of the tracked skeletons for each .mat frame, which can be used for further body posture analyses. The "Data" folder in this repository shows an example of the further processing and analysis steps in R with data from two adults. For further examples see: https://osf.io/xem8k/.
+Step 2 ("Extract and save skeleton data") creates a .txt file showing the x-, y-, and z-coordinates for each of the tracked skeletons for each .mat frame, which can be used for further body posture analyses. The generated .txt file is situated inside the "SummaryData" folder. <br/>
+The "R-processing" folder in this repository shows an example of the further processing and analysis steps in R with data from two adults. <br/>
+For further examples see: [https://osf.io/xem8k/](https://osf.io/xem8k/).
 
 ## Support
 If you are experiencing issues installing the hardware, or running the scripts, please contact <br/>
