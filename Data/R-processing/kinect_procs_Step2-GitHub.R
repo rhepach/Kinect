@@ -71,7 +71,8 @@ f.col = 9
 #####
 
 getwd()
-setwd("/Users/stellagerdemann/Google Drive/Kinect Meetings/Neu/Kinect/Data/R-processing")
+# Set working directory to the location of the script. 
+# The .RData file should be in the same folder as the script. 
 # Load image files.
 load("./kinect_procs_Step1-GitHub-2019-08-27.RData")
 

@@ -32,7 +32,8 @@
 rm(list = ls(all = TRUE))
 graphics.off()
 getwd()
-#setwd("/Users/stellagerdemann/Google Drive/Kinect Meetings/Kinect/Kinect/Data/R-processing")
+# Set working directory to the location of the script. 
+# The folder "Txt-Data" should be on the same level as the folder that contains the script. 
 # Load required functions. 
 source("neeco_functions.r")
 library(plyr)
