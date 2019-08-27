@@ -54,8 +54,7 @@ The processing script should be located at the same level as the "sub" folder. T
 In order to use the processing script, it is necessary to specify the directory to the study data folder. The structure below the indicated folder has to comprise three levels.
 1. The first level should be the subject level with one folder for each subject.
 2. Each subject folder comprises baseline and test folders.
-3. In each of these, there are recording folders, which contain the .mat files.
-
+3. Each of these show recording folders, which contain the .mat files.
 
 
 See the image below for an illustrative folder structure. <br/>
@@ -78,13 +77,13 @@ example                    |  modified
 
 
 Once you run the script a window will pop up - the processing GUI (see the image below).
-- By ticking the individual checkboxes the corresponding processing will be executed as soon as the ok button will be pressed.
+- By ticking the individual checkboxes the corresponding processing will be executed as soon as you press "ok"
 - The listbox on the right-hand side of the GUI could be used to browse through the content of the folders. Selecting a folder inside the listbox won't change the indicated folder with the data to be processed.
 
 ![Image of the ProcessingGUI](ressources/ProcessingGUI.PNG)
 
 ### Step 3 - Processing and Data Analysis in R
-Step 2 creates .txt data showing the x-, y-, and z-coordinates for each of the tracked skeletons for each .mat frame, which can for further body posture analyseses. These are executed in R. The "Data" folder in this repository shows an example of the further processing and analysis steps with data from two adults. For further examples see: https://osf.io/xem8k/.
+Step 2 ("Extract and save skeleton data") creates a .txt file showing the x-, y-, and z-coordinates for each of the tracked skeletons for each .mat frame, which can be used for further body posture analyses. The "Data" folder in this repository shows an example of the further processing and analysis steps in R with data from two adults. For further examples see: https://osf.io/xem8k/.
 
 ## Support
 If you are experiencing issues installing the hardware, or running the scripts, please contact <br/>
