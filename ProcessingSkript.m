@@ -15,6 +15,12 @@
 %   "processing" which is a subfolder of "sub". 
 %
 % Usage:
+%   Before you are ready to start the processing script, it is necessary to
+%   change the directory to the study data folder. Therefore you have to 
+%   modify the variable "source". Thus the directory to the ExampleData 
+%   folder has to be replaced with the path to your own study data folder 
+%   (e.g. "myData").
+%
 %   Once you run the script a window will pop up - the processing GUI.
 %   By ticking the individual checkboxes the corresponding processing will 
 %   be executed as soon as the ok button will be pressed.
@@ -50,7 +56,7 @@ clear all;
 % should be path to current .m-file; !relative paths for data & functions
 wdFile = pwd;
 
-% Location of recordings. Change accordindly!
+% Location of recordings. Change accordingly!
 source = ('./Data/ExampleData');
 
 % Add directory with required functions. 

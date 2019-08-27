@@ -35,17 +35,47 @@ The Processing Script runs on Windows and Mac OS (and Linux?)
   - Image Acquisition Toolbox? 
 
 
+<<<<<<< HEAD
 ## Usage
+=======
+### Preparations for Step 2
+
+In order to use the processing script, it is necessary to specify the directory to the study data folder. The structure below the indicated folder has to comprise three levels.
+1. The first level should be the subject level with one folder for each subject.
+2. Each subject folder comprises Baseline/Test folders ...
+3. ... in which the Recording folders with the single .mat frame files should be stored.
+>>>>>>> d26844388ee22294086e0d26032a25eb03c4f149
 
 ### Step 1
 Collect data by using the recording script.
 Vielleicht könnten die Instruktionen hier noch genauer sein? Vielleicht ein Screenshot des Recording-skripts mit Instruktionen, wie es angepasst werden müsste bevor die Aufnahme gestartet wird.  
 
+<<<<<<< HEAD
 ### Step 2
 Using the .mat files for each frame, run the MATLAB processing script to extract body posture information, images or delete data to reduce file size.
+=======
+See the image below for an illustrative folder structure. <br/>
+In this case the study data folder "ExampleData" is situated below the general Data folder. Inside the study data folder, two subject folders are located. The files on the right-hand side of the image show the content of the "Recording_2" folder inside the "Baseline 3" folder.
+<br/>
+>>>>>>> d26844388ee22294086e0d26032a25eb03c4f149
 
 Vielleicht wäre hier auch ein Screenshot davon wo die Daten liegen und wie sie eingelesen werden können hilfreich? 
 
+<<<<<<< HEAD
+=======
+<br/>
+The necessary data structure is given for the ExampleData in the Kinect repository and will be generated automatically by the attached recording script.
+
+### Step 2 - processing
+Run the MATLAB processing script to extract body posture information and images from the .mat files for each frame or delete data to reduce the .mat file size.
+
+Before you are ready to start the processing script, it is necessary to change the directory to the study data folder. Therefore you have to modify the variable "source". Thus the directory to the ExampleData folder has to be replaced with the path to your own study data folder (e.g. "myData" as subfolder inside "Data").
+
+example                    |  modified
+:-------------------------:|:-------------------------:
+![modify Source](ressources/changeSource.png) | ![modified Source](ressources/changedSource.png)
+
+>>>>>>> d26844388ee22294086e0d26032a25eb03c4f149
 
 The image below shows the processing GUI with all options to chose for processing the data.
 
@@ -56,7 +86,8 @@ If you are experiencing issues installing the hardware, or running the scripts, 
 robert.hepach@uni-leipzig.de or 
 stella.gerdemann@uni-leipzig.de und Kim? 
 ## Roadmap
-list ideas for releases in the future.
+
+- script modifications to enable the use of the Kinect for Windows v2 and therefore overcome frame rate limitations
 
 ## Contributing
 State if you are open to contributions and what your requirements are for accepting them.
