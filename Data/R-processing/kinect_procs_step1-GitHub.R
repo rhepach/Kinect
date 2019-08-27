@@ -32,7 +32,7 @@
 rm(list = ls(all = TRUE))
 graphics.off()
 getwd()
-setwd("/Users/stellagerdemann/Google Drive/Kinect Meetings/Kinect/Kinect/Data/R-processing")
+#setwd("/Users/stellagerdemann/Google Drive/Kinect Meetings/Kinect/Kinect/Data/R-processing")
 # Load required functions. 
 source("neeco_functions.r")
 library(plyr)

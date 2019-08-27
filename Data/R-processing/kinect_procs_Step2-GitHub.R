@@ -41,8 +41,6 @@ library(simr)
 library(lattice)
 library(reshape2)
 library(car)
-library(ppcor)
-
 
 ############################################################################
 #
@@ -73,9 +71,9 @@ f.col = 9
 #####
 
 getwd()
-#setwd("/Users/stellagerdemann/Google Drive/Stella PhD Studien/Involve/Manuscript/Pilot data and analysis scripts/Body posture/R-Processsing")
+setwd("/Users/stellagerdemann/Google Drive/Kinect Meetings/Neu/Kinect/Data/R-processing")
 # Load image files.
-load("./kinect_procs_Step1-Involve-2019-08-26.RData")
+load("./kinect_procs_Step1-GitHub-2019-08-27.RData")
 
 # For the entire walking range of 20 bins, check how much data there is.
 check.bin.den2 = check.bin.den
@@ -104,11 +102,7 @@ axis(side=1, at=c(1.2,1.7,2.2,2.7,3.2))
 
 
 # This is how individual subjects can be excluded.
-
-#myData.chest.bin = myData.chest.bin[myData.str$Subject!="20190307T151839_Involve_pilot_9_f_social_8&9_8.991101985_unequal_equal",]
-#myData.hip.bin = myData.hip.bin[myData.str$Subject!="20190307T151839_Involve_pilot_9_f_social_8&9_8.991101985_unequal_equal",]
-# myData.str = myData.str[myData.str$Subject!="20190307T151839_Involve_pilot_9_f_social_8&9_8.991101985_unequal_equal",]
- myData.str = droplevels(myData.str)
+# Not required here! 
 
 #####
 # (2) Perfrom phase merging (within baseline and within each test trial)
@@ -362,10 +356,12 @@ Test_2.se = as.numeric(Test_2.se)
 quartz(width=11, height=6)
 par(mfrow=c(1,2))
 
-# Plot 4&5-year-olds
+# Plot Upper-body posture
 plot(Test_2.m, type="n", ylim=c(-0.1, 0.1), xlab="Time", axes=T,ylab="Change in Chest Height (m)", main = "Example Data (Chest Height)")
 lines(Test_1.m, col = "lightskyblue", lwd=6, lty=1)
 lines(Test_2.m, col = "salmon", lwd=6, lty=1)
+legend(12, 0.08, legend=c("Condition 1", "Condition 2"),
+       col=c("salmon",  "lightskyblue"), lty=1, lwd= 2, cex=1,box.col = "white",bg = "white")
 
 
 
@@ -385,7 +381,7 @@ Test_2.m = apply(Test_2,2, mean, na.rm=T )
 Test_2.se = apply(Test_2,2, se, na.rm=T )
 Test_2.se = as.numeric(Test_2.se)
 
-# Plot 4&5-year-olds
+# Plot Lower-body posture
 plot(Test_2.m, type="n", ylim=c(-0.1, 0.1), xlab="Time", axes=T,ylab="Change in Hip Height (m)", main = "Example Data (Hip Height)")
 lines(Test_1.m, col = "lightskyblue", lwd=6, lty=1)
 lines(Test_2.m, col = "salmon", lwd=6, lty=1)
