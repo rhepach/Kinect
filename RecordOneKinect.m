@@ -227,6 +227,11 @@ while ~any([N1 >= Frames,toc > RecordingTime, timesofrec == -1])
       % remove "SegmentationData"-field 
       metaData_Depth1 = rmfield(metaData_Depth1,'SegmentationData'); 
       
+      % save current FrameRate of RGB & depth camera in metaData 
+      srcC = getselectedsource(vid(1));
+      srcD = getselectedsource(vid(2));
+      metaData_Depth1.FrameRate = [srcC.FrameRate srcD.FrameRate];
+      
       % save data (3 objects)
       matfile = fullfile(RecordPath,sprintf('FRM%07d_%s.mat',N1,...
                          datestr(metaData_Depth1.AbsTime,'HHMMSS')));   
