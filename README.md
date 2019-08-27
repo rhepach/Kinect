@@ -34,7 +34,7 @@ The Processing Script runs on Windows, Mac OS and Linux.
 ## Usage
 
 ### Step 1 - Recording
-Collect data by using the recording script. The recording script should be located at the same level as the "sub" folder. The recording script accesses the "recording" support functions within this folder. 
+Collect data by using the recording script. The recording script should be located at the same level as the "sub" folder. The recording script accesses the "recording" support functions within this folder.
 
 To use the recording script the Kinect should already be connected to your computer via a USB-port. <br/>
 Once the script is executed a command line input of the study name and subsequently the subject name will be requested. Afterwards, the recording GUI (see the image below), continuously showing the the camera input, pops up.
@@ -54,7 +54,7 @@ The processing script should be located at the same level as the "sub" folder. T
 In order to use the processing script, it is necessary to specify the directory to the study data folder. The structure below the indicated folder has to comprise three levels.
 1. The first level should be the subject level with one folder for each subject.
 2. Each subject folder comprises baseline and test folders.
-3. In each of these, there are recording folders, which contain the .mat files. 
+3. In each of these, there are recording folders, which contain the .mat files.
 
 
 
@@ -84,7 +84,7 @@ Once you run the script a window will pop up - the processing GUI (see the image
 ![Image of the ProcessingGUI](ressources/ProcessingGUI.PNG)
 
 ### Step 3 - Processing and Data Analysis in R
-Step 2 creates .txt data showing the x-, y-, and z-coordinates for each of the tracked skeletons for each .mat frame, which can for further body posture analyseses. These are executed in R. The "Data" folder in this repository shows an example of the further processing and analysis steps with data from two adults. For further examples see: https://osf.io/xem8k/. 
+Step 2 creates .txt data showing the x-, y-, and z-coordinates for each of the tracked skeletons for each .mat frame, which can for further body posture analyseses. These are executed in R. The "Data" folder in this repository shows an example of the further processing and analysis steps with data from two adults. For further examples see: https://osf.io/xem8k/.
 
 ## Support
 If you are experiencing issues installing the hardware, or running the scripts, please contact <br/>
