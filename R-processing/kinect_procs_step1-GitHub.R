@@ -32,8 +32,9 @@
 rm(list = ls(all = TRUE))
 graphics.off()
 getwd()
+setwd("/Users/stellagerdemann/Google Drive/Kinect Meetings/Neu/Kinect/R-processing")
 # Set working directory to the location of the script. 
-# The folder "Txt-Data" should be on the same level as the folder that contains the script. 
+# The folder "SummaryData" should be on the same level as the folder that contains the script. 
 # Load required functions. 
 source("neeco_functions.r")
 library(plyr)
@@ -81,14 +82,14 @@ check.bin.den = c()
 ############################################################################
 
 # Read in data.
-flist = list.files("../Txt-Data/")
+flist = list.files("../SummaryData/")
 
 myData = c()
 max.col = 30*10
 
 
 for(i in 1:length(flist)){ #(1)
-	now.myData <- read.table(file= paste("../Txt-Data/", flist[i], collapse="",sep = ""),header=T,sep="\t")
+	now.myData <- read.table(file= paste("../SummaryData/", flist[i], collapse="",sep = ""),header=T,sep="\t")
 	myData = rbind(myData, now.myData)
 	rm("now.myData")
 }
