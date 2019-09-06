@@ -103,7 +103,7 @@ For major changes, please open an issue first to discuss what you would like to 
 
 ## Authors and Acknowledgment
 Processing Script:
-- written by Anja Neumann.
+- written by Elmar Tarajan and Anja Neumann.
 - maintained by Robert Hepach, Stella Gerdemann, and Kim-Laura Speck.
 
 Recording Script:
