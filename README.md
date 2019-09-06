@@ -1,7 +1,5 @@
 # Kinect - body posture analysis
 
-Testing
-
 This repository contains all relevant scripts to run, process, and analyze posture data from Kinect studies.
 Each script is named after the processing step it reflects in the overall process.
 
