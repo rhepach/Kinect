@@ -28,9 +28,9 @@
 %   through the content of the folders. Selecting a folder inside the
 %   listbox won't change the indicated folder with the data to be processed. 
 %
-% The checksum for the latest tested version is: 
-%
 % This is written for Mac OS (i.e., specification of folder structure).
+%
+% Last changes August 2019 by K. Speck
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Inputs: 

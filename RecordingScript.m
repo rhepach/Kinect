@@ -37,7 +37,9 @@
 %
 %   By changing the values of gui.states inside the cellstr functions you 
 %   could define the names of the folders below the subject level. 
-% 
+%
+% Last changes August 2019 by K. Speck
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Parameters 
 
