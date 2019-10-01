@@ -162,7 +162,8 @@ if ~isequal(guiData, '0000000000')
     if (guiData(9) == '1') 
         % for each recording folder stored in del
         for d = 1:size(del,1) 
-            dirData = dir(del{d,1}); % paths to frame files (.mat)
+            % get paths to .mat frame files 
+            dirData = dir(fullfile(del{d,1}, '*.mat')); 
             dirData([dirData.isdir]) = [];  
             
             % for each frame file in current recording folder
