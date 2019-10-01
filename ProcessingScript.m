@@ -131,13 +131,13 @@ if ~isequal(guiData, '0000000000')
                         
                         % extract Colorimages with/without skeleton 
                         if (exist('imgColor1','var') && exist('metaData_Depth1','var')) 
-                            ExtractPNGs(metaData_Depth1, imgColor1,1,...
+                            ExtractPNGs(metaData_Depth1, imgColor1, f, ...
                                         guiData(3),guiData(4),'Color');
                         end % color png-files generated
                         
                         % extract Depthimages with/without skeleton 
                         if (exist('imgDepth1','var') && exist('metaData_Depth1','var'))
-                            ExtractPNGs(metaData_Depth1, imgDepth1,1,...
+                            ExtractPNGs(metaData_Depth1, imgDepth1, f, ...
                                         guiData(5),guiData(6),'Depth');
                         end % depth png-files generated
                         

@@ -1,15 +1,15 @@
 % ExtractPNGs - Save colorframes or depthframes with or without skeletons.
 % 
 % Usage:
-%    >> ExtractPNGs(metaData_Depth1, imgDepth1, k, 0, 1, 'Depth')
+%    >> ExtractPNGs(metaData_Depth1, imgDepth1, 0, 1, 'Depth')
 %           % folder of depthframes (.png) without skeleton
-%    >> ExtractPNGs(metaData_Depth1, imgColor1, k, 1, 1, 'Color')
+%    >> ExtractPNGs(metaData_Depth1, imgColor1, 1, 1, 'Color')
 %           % folders of colorframes (.png) with and without skeleton
 % 
 % Inputs:
 %     metaData_Depth1   - meta data from frame files (.mat)
 %     imgData           - color or depth data from frame files (.mat)
-%     k                 - double 1 | 2; indicates Kinect
+%     f                 - name of .mat frame file
 %     x                 - char vector '0' | '1'; 1 = frames with skeleton
 %     y                 - char vector '0' | '1'; 1 = frames 
 %     type              - char vector 'Color' | 'Depth'; type of frame 
@@ -39,12 +39,13 @@
 %     AnkleRight = 19;
 %     FootRight = 20;
     
-function ExtractPNGs(metaData_Depth1, imgData, k, x, y, type)
+function ExtractPNGs(metaData_Depth1, imgData, f, x, y, type)
     % Check for user selection in GUI 
     if ~isequal([x,y],'00') 
         recPath = evalin('base','recPath');   
+        
         colors = ['b','g','r','y','m','c','k'];
-        frameNo = num2str(metaData_Depth1.FrameNumber);
+        fName = f(1:end-4); % file name without '.mat'
         
         % create a figure without displaying it
         % since 'zbuffer' has been removed, use 'opengl' instead
@@ -70,8 +71,7 @@ function ExtractPNGs(metaData_Depth1, imgData, k, x, y, type)
                 mkdir(strcat(recPath,'_',type,'_pics/')); 
             end % folder for png-files available 
             
-            saveas(gcf, strcat(recPath,'_',type,'_pics/','FRM',frameNo,...
-                                '_', num2str(k),'.png')); 
+            saveas(gcf, strcat(recPath,'_',type,'_pics/', fName, '.png')); 
         end % Color-/Depthframe without skeleton saved to png-file
         
         % save pics with skeleton
@@ -112,8 +112,8 @@ function ExtractPNGs(metaData_Depth1, imgData, k, x, y, type)
             end % folder for skelPics (png) available 
             
             if (cnt > 0) % any non-empty matrices in Joint Images
-                saveas(gcf,strcat(recPath,'_',type,'_skelPics/','FRM',...
-                                  frameNo,'_',num2str(k),'.png'));
+                saveas(gcf,strcat(recPath,'_',type,'_skelPics/', fName,...
+                                  '.png'));
             end % Color-/Depthframe with skeleton saved to png-file
             
         end
