@@ -152,7 +152,7 @@ if ~isequal(guiData, '0000000000')
                     if (guiData(8) == '1'), extractVideo(recPath); end
                     
                     % separate generated images & videos from raw data
-                    if (guiData(10) == '1'), sepData(recPath); end
+                    if (guiData(10) == '1'), sepData(recPath, TimeStamp); end
                 end 
             end
         end   
