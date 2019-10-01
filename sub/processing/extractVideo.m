@@ -11,9 +11,9 @@
 %     This function has no output arguments. 
 
 function extractVideo(recPath)
-    
-    VideoFilename = fullfile(recPath, '..', sprintf('%s_%s.%s',...
-                            'Recording', num2str(recPath(end)),'mp4'));
+    TimeStamp = datestr(now, 30);
+    VideoFilename = fullfile(recPath, '..', sprintf('%s_%s_%s.%s',...
+                    'Recording', num2str(recPath(end)), TimeStamp,'mp4'));
     vidObj = VideoWriter(VideoFilename,'MPEG-4'); % creates video file
     vidObj.Quality = 100;
     vidObj.FrameRate = 30;
