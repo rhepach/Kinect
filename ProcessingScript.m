@@ -70,7 +70,7 @@ guiData = processingGUI(data); % selected options in GUI
 % initial value to create new .txt file
 newFile = [0 1]; 
 % prepare fileName
-sourceSplit = strsplit(source, filesep); 
+sourceSplit = strsplit(source, '/'); 
 studyName = sourceSplit{end};
 TimeStamp = datestr(now, 30);
 fileName = strcat('SummaryData/', TimeStamp, '_SkeletonData_', ...
