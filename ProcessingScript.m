@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% V1.0 (14.08.2019)
+% V1.0 (02.10.2019)
 %
 % MATLAB processing script. Generally step two in the recording and 
 % analysis of Kinect body posture data.
@@ -70,12 +70,15 @@ guiData = processingGUI(data); % selected options in GUI
 % initial value to create new .txt file
 newFile = [0 1]; 
 % prepare fileName
-sourceSplit = strsplit(source, '/'); 
+sourceSplit = strsplit(source, filesep); 
 studyName = sourceSplit{end};
 TimeStamp = datestr(now, 30);
 fileName = strcat('SummaryData/', TimeStamp, '_SkeletonData_', ...
                   studyName,'.txt');
 
+% input argument for nameFoldDir              
+folderNames = {};               
+              
 % preparations for "delete originals"
 del = {}; % will be filled with recPaths if "delete originals" chosen
 j = 1; % counter variable for del 
@@ -86,84 +89,87 @@ if ~isequal(guiData, '0000000000')
     % set working directory (might be changed by GUI)
     cd(wdFile)
     
-    % enter directory structure (subject - baseline - recording)
-    Subject = nameFoldDir(source); % subject folders in Data
-    for s=1:length(Subject)
-        disp(Subject{s});
-        
-        % get baseline/test folders
-        Baseline = nameFoldDir(strcat(source,'/',Subject{s})); 
-        for b=1:length(Baseline)
-            disp(Baseline{b});
-            
-            % get recording folders
-            Recording = nameFoldDir(strcat(source,'/',Subject{s},'/',...
-                                           Baseline{b})); 
-            for r=1:length(Recording)
-                
-                % full path to current recording folder
-                recPath = strcat(source,'/',Subject{s},'/',Baseline{b},...
-                                        '/',Recording{r}); 
-                
-                % list all frame files in current recording folder                    
-                Files  = dir(fullfile(recPath,'FRM*.mat')); 
-                nFrames = numel(Files); 
-                
-                % start processing if any frames in recording folder
-                if (nFrames > 0)
-                    disp(Recording{r});
-                    
-                    % store recPaths in del if "delete originals" chosen
-                    if (guiData(9) == '1')  
-                        del{j,1} = recPath; 
-                        j = j + 1; 
-                    end 
-                    
-                    % processing for each frame file (.mat) 
-                    for iFrames = 1:nFrames 
-                        
-                        % get frame file data (.mat)
-                        f = Files(iFrames).name; 
-                        load(fullfile(recPath,f));  
-                        
-                        % extract Colorimages with/without skeleton 
-                        if (exist('imgColor1','var') && exist('metaData_Depth1','var')) 
-                            ExtractPNGs(metaData_Depth1, imgColor1, f, ...
-                                        guiData(3),guiData(4),'Color');
-                        end % color png-files generated
-                        
-                        % extract Depthimages with/without skeleton 
-                        if (exist('imgDepth1','var') && exist('metaData_Depth1','var'))
-                            ExtractPNGs(metaData_Depth1, imgDepth1, f, ...
-                                        guiData(5),guiData(6),'Depth');
-                        end % depth png-files generated
-                        
-                    end
-                    
-                    % resize &/| greyscale colorframes
-                    resizeMatF(guiData(1:2));
-                    
-                    % write Skeleton-Data to txt-File
-                    if (guiData(7) == '1')
-                        newFile = skData2txt(newFile, fileName);
-                    end % txt-File filled 
-                    
-                    % write color frames to video file 
-                    if (guiData(8) == '1'), extractVideo(recPath); end
-                    
-                    % separate generated images & videos from raw data
-                    if (guiData(10) == '1'), sepData(recPath, TimeStamp); end
-                end 
-            end
-        end   
-    end
+    % get all paths of recording folders 
+    recFolderPaths = nameFoldDir(source, folderNames);
     
+    % processing of every recording folder 
+    for iRec = 1:length(recFolderPaths)
+        recPath = recFolderPaths{iRec};
+        
+        % get information from recPath 
+        recSplit = strsplit(recPath, filesep);
+        
+        % applies only for the usual folder structure from RecordOneKinect
+        % (subject - baseline - recording)
+        % otherwise define where to get corresponding info (see example below) 
+        Subject = recSplit{end-2};  % TimeStamp & SubjectName 
+        Baseline = recSplit{end-1}; % e.g. Baseline 2
+        Recording = recSplit{end};  % e.g. Recording_3
+        
+        % example for 1 level folder structure with example recPath 
+        % e.g. 01_02_CrossPosture3_Bilo_ConWin_Baseline1_20181115_ID055
+%         folderSplit = strsplit(recSplit{end},'_'); 
+%         Subject = folderSplit{end-1:end} % Timestamp & SubjectID
+%         Baseline = folderSplit{end-2} % e.g. Baseline1
+%         Recording = 'Recording_1' % since no differentiation of recordings
+         
+        % list all frame files in current recording folder                    
+        Files  = dir(fullfile(recPath, 'FRM*.mat')); 
+        nFrames = numel(Files); 
+                
+        % start processing if any frames in recording folder
+        if (nFrames > 0)
+            disp(['processing subject: ' Subject ', ' Baseline ', ' Recording])
+                    
+            % store recPaths in del if "delete originals" chosen
+            if (guiData(9) == '1')  
+                del{j,1} = recPath; 
+                j = j + 1; 
+            end 
+                    
+            % processing for each frame file (.mat) 
+            for iFrames = 1:nFrames 
+                        
+                % get frame file data (.mat)
+                f = Files(iFrames).name; 
+                load(fullfile(recPath,f));  
+                        
+                % extract Colorimages with/without skeleton 
+                if (exist('imgColor1','var') && exist('metaData_Depth1','var')) 
+                    ExtractPNGs(metaData_Depth1, imgColor1, f, ...
+                                guiData(3),guiData(4),'Color');
+                end % color png-files generated
+                        
+                % extract Depthimages with/without skeleton 
+                if (exist('imgDepth1','var') && exist('metaData_Depth1','var'))
+                    ExtractPNGs(metaData_Depth1, imgDepth1, f, ...
+                                guiData(5),guiData(6),'Depth');
+                end % depth png-files generated
+                        
+            end
+                    
+            % resize &/| greyscale colorframes
+            resizeMatF(guiData(1:2));
+                    
+            % write Skeleton-Data to txt-File
+            if (guiData(7) == '1')
+                newFile = skData2txt(newFile, fileName);
+            end % txt-File filled 
+                    
+            % write color frames to video file 
+            if (guiData(8) == '1'), extractVideo(recPath); end
+                    
+            % separate generated images & videos from raw data
+            if (guiData(10) == '1'), sepData(recPath, TimeStamp); end
+        end 
+    end
+
     % delete color- & depthsinformation from original mat-files
     if (guiData(9) == '1') 
         % for each recording folder stored in del
         for d = 1:size(del,1) 
             % get paths to .mat frame files 
-            dirData = dir(fullfile(del{d,1}, '*.mat')); 
+            dirData = dir(fullfile(del{d,1}, 'FRM*.mat')); 
             dirData([dirData.isdir]) = [];  
             
             % for each frame file in current recording folder
