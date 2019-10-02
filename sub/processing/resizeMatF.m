@@ -39,7 +39,7 @@ function resizeMatF(xx)
             % search for color data in all variables of .mat-file 
             for j = 1:length(varNames)
                 if contains(varNames{j}, 'imgColor') 
-                    colData = evalin('base', varNames{j});  
+                    colData = eval(varNames{j});  
                     
                     % convert color data depending on selection in GUI 
                     % first column in frameArray = frame name -> j+1
@@ -58,7 +58,7 @@ function resizeMatF(xx)
                 
                 % copy original variable if no match with pattern 'imgColor'
                 else 
-                    frameArray{iFrame,j+1} = evalin('base',varNames{j}); 
+                    frameArray{iFrame,j+1} = eval(varNames{j}); 
                 end 
             end 
         end % processing finished for every frame file in recording folder 

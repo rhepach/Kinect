@@ -126,9 +126,6 @@ if ~isequal(guiData, '0000000000')
                         f = Files(iFrames).name; 
                         load(fullfile(recPath,f));  
                         
-                        % resize &/| greyscale colorframes
-                        resizeMatF(guiData(1:2));
-                        
                         % extract Colorimages with/without skeleton 
                         if (exist('imgColor1','var') && exist('metaData_Depth1','var')) 
                             ExtractPNGs(metaData_Depth1, imgColor1, f, ...
@@ -142,6 +139,9 @@ if ~isequal(guiData, '0000000000')
                         end % depth png-files generated
                         
                     end
+                    
+                    % resize &/| greyscale colorframes
+                    resizeMatF(guiData(1:2));
                     
                     % write Skeleton-Data to txt-File
                     if (guiData(7) == '1')
