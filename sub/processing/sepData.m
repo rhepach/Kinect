@@ -12,12 +12,12 @@
 % Output:
 %   This function has no output arguments.
 
-function sepData(recPath)
+function sepData(recPath, TimeStamp)
 
     % get information from base workspace
     source = evalin('base','source'); % (relative) path to study data folder
-    subject = evalin('base','Subject{s}'); % TimeStamp & SubjectName 
-    baseline = evalin('base', 'Baseline{b}'); % e.g. Baseline 2
+    subject = evalin('base','Subject'); % TimeStamp & SubjectName 
+    baseline = evalin('base', 'Baseline'); % e.g. Baseline 2
     
     % new folder path (if any content to move available)
     ImagesOnly = fullfile(source, ['ImagesOnly_'  TimeStamp], ...

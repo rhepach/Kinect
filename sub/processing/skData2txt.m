@@ -8,8 +8,8 @@
 % 
 % Inputs:
 %   newFile     - vector of class double; [0 1] (initial value) | [0 0]
-%   fileName    - string; path to summaryData folder; 
-%                         name includes TimeStamp & StudyName 
+%   fileName    - char vector; path to summaryData folder; 
+%                              name includes TimeStamp & StudyName 
 %
 % Outputs:
 %   newFile     - vector of class double; [0 0]
@@ -37,9 +37,9 @@ function[newFile] = skData2txt(newFile, fileName)
                'Hip_Right','Knee_Right','Ankle_Right','Foot_Right'};
    
    % get information from base workspace
-   subject = evalin('base','Subject{s}'); % Timestamp_SubjectName
-   trial = evalin('base','Baseline{b}'); % e.g. Baseline 2
-   rec = evalin('base','Recording{r}'); % e.g. Recording_3
+   subject = evalin('base','Subject'); % Timestamp_SubjectName
+   trial = evalin('base','Baseline'); % e.g. Baseline 2
+   rec = evalin('base','Recording'); % e.g. Recording_3
    recPath = evalin('base','recPath'); % path to current recording folder
    
    % extract recording identifier

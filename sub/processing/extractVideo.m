@@ -11,10 +11,16 @@
 %     This function has no output arguments. 
 
 function extractVideo(recPath)
-    TimeStamp = datestr(now, 30);
+    % prepare video file name 
+    rec = evalin('base', 'Recording'); % e.g. Recording_3
+    TimeStamp = datestr(now, 30); % char vector; day & time
+    
+    % create video file name
     VideoFilename = fullfile(recPath, '..', sprintf('%s_%s_%s.%s',...
-                    'Recording', num2str(recPath(end)), TimeStamp,'mp4'));
-    vidObj = VideoWriter(VideoFilename,'MPEG-4'); % creates video file
+                    'Recording', num2str(rec(end)), TimeStamp,'mp4'));
+    
+    % create video file + settings
+    vidObj = VideoWriter(VideoFilename,'MPEG-4'); 
     vidObj.Quality = 100;
     vidObj.FrameRate = 30;
     open(vidObj)
