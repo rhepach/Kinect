@@ -9,7 +9,7 @@
 % Inputs:
 %     metaData_Depth1   - meta data from frame files (.mat)
 %     imgData           - color or depth data from frame files (.mat)
-%     f                 - name of .mat frame file
+%     f                 - name of current .mat frame file
 %     x                 - char vector '0' | '1'; 1 = frames with skeleton
 %     y                 - char vector '0' | '1'; 1 = frames 
 %     type              - char vector 'Color' | 'Depth'; type of frame 
