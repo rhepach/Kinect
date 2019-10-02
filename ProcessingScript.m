@@ -128,24 +128,20 @@ if ~isequal(guiData, '0000000000')
             end 
                     
             % processing for each frame file (.mat) 
-            for iFrames = 1:nFrames 
+            parfor iFrames = 1:nFrames 
                         
-                % get frame file data (.mat)
-                f = Files(iFrames).name; 
-                load(fullfile(recPath,f));  
+                % get name of current .mat frame file
+                f = Files(iFrames).name;  
                         
                 % extract Colorimages with/without skeleton 
-                if (exist('imgColor1','var') && exist('metaData_Depth1','var')) 
-                    ExtractPNGs(metaData_Depth1, imgColor1, f, ...
-                                guiData(3),guiData(4),'Color');
+                if any(guiData(3:4) == '1')
+                    ExtractPNGs(recPath, f, guiData(3:4), 'Color');
                 end % color png-files generated
                         
                 % extract Depthimages with/without skeleton 
-                if (exist('imgDepth1','var') && exist('metaData_Depth1','var'))
-                    ExtractPNGs(metaData_Depth1, imgDepth1, f, ...
-                                guiData(5),guiData(6),'Depth');
-                end % depth png-files generated
-                        
+                if any(guiData(5:6) == '1')
+                    ExtractPNGs(recPath, f, guiData(5:6), 'Depth');
+                end % depth png-files generated             
             end
                     
             % resize &/| greyscale colorframes
