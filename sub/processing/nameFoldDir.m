@@ -1,4 +1,5 @@
-% nameFoldDir - returns cell array of subfolder names with .mat frame files;
+% nameFoldDir - returns cell array of subfolder names with .mat frame files 
+%               (by matching file names to the pattern '^FRM*.mat$');
 %               recursive function 
 % 
 % Usage:
@@ -16,10 +17,18 @@ function folderNames = nameFoldDir(sourcePath, folderNames)
     d(ismember({d.name}, {'.', '..'})) = []; % remove "navigator" directories 
     iSub = [d(:).isdir]; % logical vector indicating subdirectories by 1
     
-    % in case of no subdirectories inside the folder (base case)
-    if ~(any(iSub == 1)) 
-        % append folder path to output variable
-        folderNames{end+1} = d(1).folder;    
+    % in case of no subdirectories inside the non-empty folder (base case)
+    if ~(any(iSub == 1)) && ~(isempty(iSub)) 
+        % check if any file names match the mat frame file name pattern
+        f = {d.name};
+        ix = find(~cellfun(@isempty, regexp(f, '.mat$')) & ...
+                 (~cellfun(@isempty, regexp(f, '^FRM'))));
+        
+        % if mat frame files in folder append path to output variable
+        if ~(isempty(ix))    
+            folderNames{end+1} = d(1).folder;   
+        end
+          
     % in case of subdirectories inside the folder (recursion)    
     elseif any(iSub == 1)
         % function is called with each subdirectory inside the folder 
