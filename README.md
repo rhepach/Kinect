@@ -18,6 +18,7 @@ In order to check if the Image Acquisition Toolbox is installed navigate to the 
 
 ```Matlab
 license('test', 'Image_Acquisition_Toolbox')
+license('test', 'Image_Toolbox') % check for the Image Processing Toolbox 
 ```
 - In addition the following hardware support is necessary: [Image Acquisition Toolbox Support Package for Kinect for Windows Sensor](https://de.mathworks.com/hardware-support/kinect-windows.html). For further information and to download the package navigate to the Add-On Explorer in MATLAB (Home tab - Add-Ons - Get Hardware Support Packages) and search for the package or follow the link above.
   - This requires:
@@ -77,7 +78,8 @@ example                    |  modified
 Once you run the script a window will pop up - the processing GUI (see the image below).
 - By ticking the individual checkboxes the corresponding processing will be executed as soon as you press "ok"
 - The listbox on the right-hand side of the GUI could be used to browse through the content of the folders. Selecting a folder inside the listbox won't change the indicated folder with the data to be processed.
-
+- Experience shows that selecting the delete function __individually__ as soon as all processing is already done works best. 
+ 
 ![Image of the ProcessingGUI](ressources/ProcessingGUI.PNG)
 
 ### Step 3 - Processing and Data Analysis in R
@@ -93,6 +95,7 @@ Kim-Laura Speck, ks56cyvu@studserv.uni.leipzig.de
 
 ## Roadmap
 
+- Script adaptations to make it suitable for the Application Compiler. 
 - Script modifications to enable the use of the Kinect for Windows v2 and therefore overcome frame rate limitations.
 
 ## Contributing
