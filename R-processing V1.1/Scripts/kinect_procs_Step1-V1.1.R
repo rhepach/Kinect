@@ -33,7 +33,7 @@
 #
 # Questions -> robert.hepach@uni-leipzig.de
 ############################################################################
-setwd("/Volumes/ERZW/FEUK/HAUN LAB/STUDIEN/STELLA/Involve/Involve-Pilot/Involve R-Posture V1.1")
+setwd("/Volumes/ERZW/FEUK/HAUN LAB/STUDIEN/STELLA/Kinect/Kinect/R-processing V1.1/Scripts")
 # Clear workspace and close open graphic windows.
 rm(list = ls(all = TRUE))
 graphics.off()
@@ -145,12 +145,12 @@ min.data.bin = 1
 
 ## Here multiple files are read in.
 # Read in data.
-flist = list.files("../Involve-Pilot-txt/geschnitten")
+flist = list.files("../SummaryData/")
 
 myData = c()
 
 for(i in 1:length(flist)){ #(1)
-	now.myData <- read.table(file= paste("../Involve-Pilot-txt/geschnitten/", flist[i], collapse="",sep = ""),header=T,sep="\t")
+	now.myData <- read.table(file= paste("../SummaryData/", flist[i], collapse="",sep = ""),header=T,sep="\t")
 	myData = rbind(myData, now.myData)
 	rm("now.myData")
 }
@@ -429,18 +429,15 @@ count.length[a] <- length(foo.row.depth)
 ## Main Processing start PHASE 2
 ###
 
+#Example how individual skeletons can be set to NA
+#myData.chest[myData.chest $Subject=="20190807T151230_Example1" & myData.chest $Recording=="Test 1-2" & myData.chest$Sk_color =="cyan", (n.col+1):ncol(myData.chest)] <- NA
+#myData.chest[myData.hip.y $Subject=="20190807T151230_Example1" & myData.hip.y $Recording=="Test 1-2" & myData.hip.y$Sk_color =="cyan", (n.col+1):ncol(myData.hip.y)] <- NA
 
-#Chest 20190311T082107_Involve_pilot_1_f_nonsocial_4&5_4.824093087_unequal_equal_4_0 - Test 1 - Test 1-2 
-myData.chest[myData.chest $Subject=="20190311T082107_Involve_pilot_1_f_nonsocial_4&5_4.824093087_unequal_equal_4_0" & myData.chest $Recording=="Test 1-2" & myData.chest$Sk_color =="red", (n.col+1):ncol(myData.chest)] <- NA
-
-
-#Hip 
-myData.hip.y[myData.hip.y $Subject=="20190311T082107_Involve_pilot_1_f_nonsocial_4&5_4.824093087_unequal_equal_4_0" & myData.hip.y $Recording=="Test 1-2" & myData.hip.y$Sk_color =="red", (n.col+1):ncol(myData.hip.y)] <- NA
 
 
 for(a in 1:length(unique.subj)){
 
-	# Select chest point data for current subject.
+	# Select hip.y point data for current subject.
 	now.subj = subset(myData.chest, Subject ==unique.subj[a])
 	# Select recorded trials for each subject.
 	unique.trial = unique(now.subj$Recording)
